@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>十月 23, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h3 id="十九、_包">十九、 包</h3>
+<h4 id="1-_编译时根据包名生成目录">1. 编译时根据包名生成目录</h4>
+<p>假设 Hello.java 中包的定义为:<br>    package cn.mldn.tools;<br>则编译时使用如下语句：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">javac <span class="operator">-d</span> . Hello.java</div><div class="line"><span class="operator">-d</span> : 根据文件 package 的定义生成目录</div><div class="line">.  : 设置保存路径，这个 . 表示在当前所在路径下生成</div></pre></td></tr></table></figure>
+
+<p>会在 Hello.java 所在目录生成新目录 <code>cd\mldn\tools</code> <br><br>在执行程序时，不要进入到包里面，应该在包外面输入类的完整路径：<br>    java cn.mldn.tools.Hello</p>
+<h4 id="2-_默认访问权限声明的类只能在本包访问">2. 默认访问权限声明的类只能在本包访问</h4>
+<h4 id="3-_一个类_import_了不同包中的两个同名类，使用时应加上包名以作区分">3. 一个类 import 了不同包中的两个同名类，使用时应加上包名以作区分</h4>
+<h4 id="4-_Java_常见的开发包：">4. Java 常见的开发包：</h4>
+<ul>
+<li>java.lang: 包含 String，Object， Integer 等类，自动导入</li>
+<li>java.lang.reflect： 反射开发包</li>
+<li>java.util： 提供大量工具，如链表</li>
+<li>java.util.regex： 正则工具包</li>
+<li>java.text: 国际化处理程序包</li>
+<li>java.io: 文件操作，输入输出</li>
+<li>java.net: 网络编程开发包</li>
+<li>java.sql: 数据库程序开发包</li>
+</ul>
+<h4 id="5-_jar_命令">5. jar 命令</h4>
+<p>压缩单位以包为主,eg:<br>    jar -cvf my.jar cn</p>
+<blockquote>
+<p>生成的 jar 文件不能够直接使用，必须将了 jar 文件所在的目录配置为 CLASSPATH 才可以加载</p>
+</blockquote>
+<h4 id="6-_访问控制权限">6. 访问控制权限</h4>
+<ul>
+<li><p>default (即缺省，什么也不写）: 在同一包内可见，不使用任何修饰符。使用对象：类、接口、变量、方法。</p>
+</li>
+<li><p>private : 在同一类内可见。使用对象：变量、方法。 注意：不能修饰类（外部类）</p>
+</li>
+<li><p>public : 对所有类可见。使用对象：类、接口、变量、方法</p>
+</li>
+<li><p>protected : 对同一包内的类和所有子类可见。使用对象：变量、方法。 注意：不能修饰类（外部类）。</p>
+</li>
+</ul>
+<h3 id="二十、_设计模式总结(编码)">二十、 设计模式总结(编码)</h3>
+<h4 id="1-_代理设计模式">1. 代理设计模式</h4>
+<p>真实主题类与代理主题类都继承自同一接口，其中真实主题类完成核心功能，而代理主题为核心功能做各种准备和收尾工作，客户端只调用接口完成整个工作。<br><img src="./Java学习小结/代理设计模式.png" alt=""></p>
+<h4 id="2-_工厂设计模式">2. 工厂设计模式</h4>
+<p><img src="./Java学习小结/工厂设计模式.png" alt=""></p>
+<h4 id="3-_单例模式">3. 单例模式</h4>
+<h3 id="二十一、_异常">二十一、 异常</h3>
+<h4 id="1-_打印异常信息:">1. 打印异常信息:</h4>
+<pre><code>e.printStackTrace();
+</code></pre><blockquote>
+<p>捕获异常范围大的 catch 语句要在 捕获范围小的 catch 语句之后。<br>一种可以借鉴的异常处理思路：在 catch 中继续往外抛异常</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">divide</span>(<span class="keyword">int</span> x, <span class="keyword">int</span> y) <span class="keyword">throws</span> Exception{</div><div class="line">    <span class="keyword">try</span>{</div><div class="line">        <span class="keyword">int</span> res = y/x;</div><div class="line">    }<span class="keyword">catch</span>(Exception e){</div><div class="line">        <span class="keyword">throw</span> e;</div><div class="line">    }<span class="keyword">finally</span>{</div><div class="line">        ...</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="2-_Error_,Exception_与_RuntimeException_的区别与联系">2. Error ,Exception 与 RuntimeException 的区别与联系</h4>
+<ul>
+<li>继承结构：Error 和 Exception 都是继承于 Throwable，RuntimeException 继承自 Exception。</li>
+<li>Error 指的是 JVM 错误，如内存空间不足，栈溢出等，编译器不检查。</li>
+<li>Exception 表示程序可以处理的异常，分为 Runtime Exception（编译器不检查，如除以0） 和 Checked Exception（编译器检查，如文件找不到）</li>
+<li>常见的 RuntimeException： ArithmeticException、 NullPointerException、 ClassCastException</li>
+</ul>
+<h4 id="3-_Java_异常处理流程">3. Java 异常处理流程</h4>
+<p><img src="./Java学习小结/Java异常处理流程.png" alt=" Java 异常处理流程"></p>
+<h4 id="4-_throws_与_throws_的区别">4. throws 与 throws 的区别</h4>
+<ul>
+<li>throw 在方法中的语句抛出异常</li>
+<li>throws 在方法的声明中表示，该方法中产生了异常后会将其抛出</li>
+</ul>
+<h4 id="5-_断言_assert">5. 断言 assert</h4>
+<p>断言不会影响 java 程序的正常执行，若要启用断言，用：<br>    java -ea 类名   //ea 即为 enable assert</p>
+<h3 id="二十二、UML_图">二十二、UML 图</h3>
+<h4 id="1-_可以使用_powerDesigner_来画图，不仅能够自行画图，还可以将已经写好的程序转换为_UML_类图">1. 可以使用 powerDesigner 来画图，不仅能够自行画图，还可以将已经写好的程序转换为 UML 类图</h4>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#十九、_包"><span class="toc-number">1.</span> <span class="toc-text">十九、 包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_编译时根据包名生成目录"><span class="toc-number">1.1.</span> <span class="toc-text">1. 编译时根据包名生成目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_默认访问权限声明的类只能在本包访问"><span class="toc-number">1.2.</span> <span class="toc-text">2. 默认访问权限声明的类只能在本包访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_一个类_import_了不同包中的两个同名类，使用时应加上包名以作区分"><span class="toc-number">1.3.</span> <span class="toc-text">3. 一个类 import 了不同包中的两个同名类，使用时应加上包名以作区分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_Java_常见的开发包："><span class="toc-number">1.4.</span> <span class="toc-text">4. Java 常见的开发包：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_jar_命令"><span class="toc-number">1.5.</span> <span class="toc-text">5. jar 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_访问控制权限"><span class="toc-number">1.6.</span> <span class="toc-text">6. 访问控制权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十、_设计模式总结(编码)"><span class="toc-number">2.</span> <span class="toc-text">二十、 设计模式总结(编码)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_代理设计模式"><span class="toc-number">2.1.</span> <span class="toc-text">1. 代理设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_工厂设计模式"><span class="toc-number">2.2.</span> <span class="toc-text">2. 工厂设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_单例模式"><span class="toc-number">2.3.</span> <span class="toc-text">3. 单例模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十一、_异常"><span class="toc-number">3.</span> <span class="toc-text">二十一、 异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_打印异常信息:"><span class="toc-number">3.1.</span> <span class="toc-text">1. 打印异常信息:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_Error_,Exception_与_RuntimeException_的区别与联系"><span class="toc-number">3.2.</span> <span class="toc-text">2. Error ,Exception 与 RuntimeException 的区别与联系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_Java_异常处理流程"><span class="toc-number">3.3.</span> <span class="toc-text">3. Java 异常处理流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_throws_与_throws_的区别"><span class="toc-number">3.4.</span> <span class="toc-text">4. throws 与 throws 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_断言_assert"><span class="toc-number">3.5.</span> <span class="toc-text">5. 断言 assert</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十二、UML_图"><span class="toc-number">4.</span> <span class="toc-text">二十二、UML 图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_可以使用_powerDesigner_来画图，不仅能够自行画图，还可以将已经写好的程序转换为_UML_类图"><span class="toc-number">4.1.</span> <span class="toc-text">1. 可以使用 powerDesigner 来画图，不仅能够自行画图，还可以将已经写好的程序转换为 UML 类图</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
