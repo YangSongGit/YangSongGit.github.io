@@ -60,11 +60,11 @@
 <li><a href="https://blog.csdn.net/china_xin1/article/details/80513898" target="_blank" rel="external">CSDN博客-pycharm安装第三方包失败</a> </li>
 </ul>
 <h3 id="使用_Pycharm_安装_pandas_库时失败报错如下：">使用 Pycharm 安装 pandas 库时失败报错如下：</h3>
-<p><img src="./记Pycharm安装pandas库失败及解决方案/Pycharm安装pandas库报错.png" alt="Pycharm安装pandas库报错"></p>
+<p><img src="./Image_记Pycharm安装pandas库失败及解决方案/Pycharm安装pandas库报错.png" alt="Pycharm安装pandas库报错"></p>
 <h3 id="原因：新版_pip_中的_main_函数已经发生了变化，是_pip_版本的原因">原因：新版 pip 中的 <code>main</code> 函数已经发生了变化，是 pip 版本的原因</h3>
 <h3 id="解决方法">解决方法</h3>
 <p>打开PyCharm安装路径下的 <code>helpers</code> 文件夹下的 <code>packaging_tool.py</code> 文件。</p>
-<p><img src="./记Pycharm安装pandas库失败及解决方案/packaging_tool文件.png" alt=""></p>
+<p><img src="./Image_记Pycharm安装pandas库失败及解决方案/packaging_tool文件.png" alt=""></p>
 <p>找到 <code>do_install</code> 函数：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_install</span><span class="params">(pkgs)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">import</span> pip</div><div class="line">    <span class="keyword">except</span> ImportError:</div><div class="line">        error_no_pip()</div><div class="line">    <span class="keyword">return</span> pip.main([<span class="string">'install'</span>] + pkgs)</div></pre></td></tr></table></figure>
 
@@ -77,7 +77,7 @@
 <p>改为：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_uninstall</span><span class="params">(pkgs)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">    	<span class="keyword">try</span>:</div><div class="line">    		<span class="keyword">from</span> pip._internal <span class="keyword">import</span> main</div><div class="line">    	<span class="keyword">except</span> Exception:</div><div class="line">    		<span class="keyword">from</span> pip <span class="keyword">import</span> main</div><div class="line">    <span class="keyword">except</span> ImportError:</div><div class="line">    	error_no_pip()</div><div class="line">    <span class="keyword">return</span> main([<span class="string">'uninstall'</span>,<span class="string">'-y'</span>] + pkgs)</div></pre></td></tr></table></figure>
 
-<p>重新打开PyCharm，再次安装即可<br><img src="./记Pycharm安装pandas库失败及解决方案/问题解决.png" alt=""></p>
+<p>重新打开PyCharm，再次安装即可<br><img src="./Image_记Pycharm安装pandas库失败及解决方案/问题解决.png" alt=""></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
