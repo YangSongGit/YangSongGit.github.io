@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Python 学习</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Python 学习</h1>
+        <div class="stuff">
+            <span>十月 26, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Java/">Java</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>Python 基本知识及其与 Java，JavaScript 的比较。<br><a id="more"></a><br>参考资料：</p>
+<ul>
+<li><a href="http://www.runoob.com/python/python-variable-types.html" target="_blank" rel="external">Python 菜鸟教程</a> </li>
+<li><a href="https://blog.csdn.net/cc7756789w/article/details/46635383" target="_blank" rel="external">【CSDN】 Python 变量作用域</a> </li>
+</ul>
+<h2 id="Python_基本知识及其与_Java、_JavaScript_的比较">Python 基本知识及其与 Java、 JavaScript 的比较</h2>
+<h4 id="标识符：">标识符：</h4>
+<ul>
+<li>字母数字下划线，且不能以数字开头</li>
+<li>以双下划线开头的标识符有特殊意义</li>
+<li>Python，Java，JavaScript 都是大小写敏感<h4 id="创建变量">创建变量</h4>
+</li>
+<li><p>Python 中新建一个变量无需声明，直接写出变量名赋值即可，变量赋值即是声明和定义的过程</p>
+</li>
+<li><p>Js可以用 <code>var let const</code> 或者什么都不加</p>
+</li>
+<li>java还需考虑类型，访问控制等</li>
+</ul>
+<h4 id="数据类型">数据类型</h4>
+<p>Python:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- Numbers        数字</div><div class="line">    * int       有符号整形</div><div class="line">    * long      长整形</div><div class="line">    * float     浮点型</div><div class="line">    * complex   复数</div><div class="line">- String         字符串</div><div class="line">- List           列表</div><div class="line">- Tuple          元组</div><div class="line">- Dictionary     字典</div><div class="line"></div><div class="line">注： 此外 Numpy 库中还提供了 数组array， 矩阵mat/matrix</div></pre></td></tr></table></figure>
+
+<p>Java: (8 中基本数据类型和引用类型)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- 数值型： </div><div class="line">    * 整形: <span class="keyword">byte</span>, <span class="keyword">short</span>, <span class="keyword">int</span>, <span class="keyword">long</span>  (默认值：<span class="number">0</span>)</div><div class="line">    * 浮点型： <span class="keyword">float</span>， <span class="keyword">double</span>   （默认值：<span class="number">0.0</span>)</div><div class="line">- 字符型： <span class="keyword">char</span>    （默认值：<span class="string">'\u0000'</span>）</div><div class="line">- 布尔型： <span class="keyword">boolean</span>  (默认值：<span class="keyword">false</span>)</div></pre></td></tr></table></figure>
+
+<p>JavaScript: ( 最新的 ECMAScript 标准定义了 7 种数据类型)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- <span class="number">6</span> 种原始类型:</div><div class="line">    * <span class="built_in">Boolean</span></div><div class="line">    * Null</div><div class="line">    * Undefined</div><div class="line">    * <span class="built_in">Number</span></div><div class="line">    * <span class="built_in">String</span></div><div class="line">    * Symbol (ECMAScript <span class="number">6</span> 新定义)</div><div class="line">- <span class="built_in">Object</span></div></pre></td></tr></table></figure>
+
+<h4 id="函数声明">函数声明</h4>
+<p>Python:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> 函数名<span class="params">(参数名)</span>:</span></div><div class="line">    <span class="string">"函数体内第一行可以使用文档字符串作为该函数的说明"</span></div><div class="line">    ...</div><div class="line"></div><div class="line"><span class="comment"># Python 函数 之 设置默认参数</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setInfo</span><span class="params">(name, age, sex = <span class="string">"secret"</span>)</span>:</span></div><div class="line">    <span class="string">"设置个人信息，性别默认为 保密 "</span></div><div class="line">    ...</div><div class="line"></div><div class="line"><span class="comment"># Python 函数 之 不定长参数</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setInfo</span><span class="params">(固定参数, *var)</span>:</span>   </div><div class="line">    <span class="string">"前方可设置多个固定参数，后面加 * 的是不定长参数 "</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> var:</div><div class="line">        <span class="comment"># 此处对每个参数进行操作</span></div><div class="line"></div><div class="line"><span class="comment"># Python 函数 之 匿名函数（只是一个表达式）</span></div><div class="line">声明： 函数名 = <span class="keyword">lambda</span> 参数列表 : 表达式</div><div class="line">举例： sum = <span class="keyword">lambda</span> arg1, arg2: arg1 + arg2</div><div class="line">调用： result = sum(<span class="number">10</span>,<span class="number">10</span>)</div></pre></td></tr></table></figure>
+
+<p>Java: </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">控制访问符 &lt;static&gt;</span> 返回值 函数名(参数类型+参数名){}</span></div></pre></td></tr></table></figure>
+
+<p>JavaScript: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> 函数名<span class="params">(参数名)</span></span>{}</div></pre></td></tr></table></figure>
+
+<h4 id="命名规范：">命名规范：</h4>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">my_package              # 包名，模块名： 全小写 加 下划线</div><div class="line">class MyDemo            # 类名：每个单词首字母大写，同Java</div><div class="line">def image_copy()   # 函数名：全小写 加 下划线</div><div class="line">total_num = 10          # 变量名：全小写 加 下划线</div><div class="line">TOTAL_NUM = 10          # 常量名：全大写 加 下划线</div></pre></td></tr></table></figure>
+
+<p>JavaScript:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> MyDemo            <span class="comment">// 类名：大驼峰式：每个单词首字母大写，同Java</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">canRead</span><span class="params">()</span>      // 函数名：小驼峰式</span></div><div class="line"><span class="title">let</span> <span class="title">maxCount</span> = 10;      // 变量名：小驼峰式（第一个单词首字母小写，以后单词首字母大写）</div><div class="line"><span class="title">TOTAL_NUM</span> = 10          // 常量名：全部大写 加 下划线</div><div class="line">注意：私有属性和方法：加上前缀为<span class="title">_</span><span class="params">(下划线)</span></div></pre></td></tr></table></figure>
+
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mypackage               <span class="comment">// 包名： 全小写 不加下划线</span></div><div class="line">class MyDemo            <span class="comment">// 类名：大驼峰式</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">canRead</span>()      // 函数名：小驼峰式</div><div class="line"><span class="keyword">int</span> maxCount = <span class="number">10</span>;      <span class="comment">// 变量名：小驼峰式（第一个单词首字母小写，以后单词首字母大写）</span></div><div class="line"><span class="keyword">final</span> <span class="keyword">int</span> TOTAL_NUM = <span class="number">10</span>          <span class="comment">// 常量名：全部大写 加 下划线</span></div></pre></td></tr></table></figure>
+
+<h4 id="注释">注释</h4>
+<p>Python: 使用 <code>#</code> 三个单引号 <code>&#39;&#39;&#39;</code> 或者三个双引号 <code>&quot;&quot;&quot;</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 单行注释</span></div><div class="line"><span class="string">'''</span></div><div class="line">多行注释1</div><div class="line">'''</div><div class="line"><span class="string">"""</span></div><div class="line">多行注释2</div><div class="line">"""</div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Java 和 JavaScript 注释为：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  单行注释</span></div><div class="line"><span class="comment">/*</span></div><div class="line">    多行注释</div><div class="line">*/</div><div class="line"><span class="javadoc">/**</span></div><div class="line">*   多行注释</div><div class="line">*/</div></pre></td></tr></table></figure>
+
+<h2 id="关于_Python">关于 Python</h2>
+<h4 id="Python_琐碎知识集散地">Python 琐碎知识集散地</h4>
+<ul>
+<li>代码中多行语句可以以 <code>\</code> 分开</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">total = one + \</div><div class="line">        two + \</div><div class="line">        three</div><div class="line">相当于： total = one + two + three</div></pre></td></tr></table></figure>
+
+<ul>
+<li>Python 不支持 switch 语句</li>
+<li><code>pass</code> 语句是一个空语句，不执行任何操作，是为了保持程序结构的完整性</li>
+<li>Python 中的 真 为 True，假 为 False。 注意首字母大写</li>
+</ul>
+<h4 id="Python_的列表">Python 的列表</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">list = [<span class="string">'str'</span>, <span class="number">10</span>, <span class="number">0.2</span>]     <span class="comment"># 列表中可以包含多种类型</span></div><div class="line">列表的访问：(下标从<span class="number">0</span>开始)</div><div class="line">list[<span class="number">0</span>]                     <span class="comment"># 取第一个元素</span></div><div class="line">list[<span class="number">1</span>:<span class="number">3</span>]                   <span class="comment"># 取下标为 1 到 2 的元素（不包含3）</span></div><div class="line">list[<span class="number">2</span>:]                    <span class="comment"># 取下标为 2 到末尾的元素</span></div><div class="line"><span class="keyword">print</span> list * <span class="number">2</span>              <span class="comment"># 注意是输出列表 2 次</span></div><div class="line"><span class="keyword">print</span> list + list2          <span class="comment"># 打印这两个列表</span></div><div class="line">注： 以上访问的形式对于字符串，元组也适用</div></pre></td></tr></table></figure>
+
+<h4 id="Python_的元组">Python 的元组</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tuple = (<span class="string">'str'</span>, <span class="number">10</span>, <span class="number">0.2</span>)    <span class="comment"># 元组中也可以包含多种类型,元组用 () 来声明</span></div><div class="line">元组的访问同列表一样：(下标从<span class="number">0</span>开始)</div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意： 元组与列表的区别：<br><br>元组内的值不能够进行改变！</p>
+</blockquote>
+<h4 id="Python_的字典">Python 的字典</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dict = {<span class="string">'name'</span>:<span class="string">'Tom'</span>, <span class="string">'age'</span>:<span class="number">20</span>, <span class="number">10</span>:<span class="string">'hah'</span>}  <span class="comment"># 键值对形式存储，其中键和值都可以是各种类型</span></div><div class="line">dict[<span class="string">'phone'</span>] = <span class="string">'15664412888'</span>              <span class="comment"># 添加元素</span></div><div class="line"><span class="comment"># 访问字典</span></div><div class="line"><span class="keyword">print</span> dict[<span class="string">'name'</span>]      <span class="comment"># 输出该键下的值</span></div><div class="line"><span class="keyword">print</span> dict              <span class="comment"># 输出完整字典</span></div><div class="line"><span class="keyword">print</span> dict.keys()       <span class="comment"># 输出所有键</span></div><div class="line"><span class="keyword">print</span> dict.values()     <span class="comment"># 输出所有值</span></div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>字典与列表和元组的区别：<br><br>字典是无序的，以键值对形式存储和访问，而列表和元组是有序的，通过下标访问</p>
+</blockquote>
+<h4 id="Python_数据类型转换">Python 数据类型转换</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a = int(x)      <span class="comment"># 将 x 转为 int 类型</span></div><div class="line">a = long(x)      <span class="comment"># 将 x 转为 long 类型</span></div><div class="line">a = float(x)      <span class="comment"># 将 x 转为 float 类型</span></div><div class="line">a = str(x)      <span class="comment"># 将 x 转为 str 类型</span></div><div class="line">a = tuple(x)      <span class="comment"># 将 x 转为 元组</span></div><div class="line">a = list(x)      <span class="comment"># 将 x 转为 列表</span></div><div class="line">a = dict(x)      <span class="comment"># 将 x 转为 字典</span></div><div class="line">a = set(x)      <span class="comment"># 将 x 转为 集合</span></div></pre></td></tr></table></figure>
+
+<h4 id="Python_运算符">Python 运算符</h4>
+<p>需要注意的有：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="number">6</span>/<span class="number">4</span>         <span class="comment"># 除法（结果为浮点型）</span></div><div class="line"><span class="number">1.5</span></div><div class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="number">6</span>//<span class="number">4</span>        <span class="comment"># 除法取整</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>d5**<span class="number">2</span>        <span class="comment"># 乘方</span></div><div class="line"><span class="number">25</span></div><div class="line"></div><div class="line"><span class="comment"># 逻辑运算符</span></div><div class="line"><span class="keyword">if</span>(a <span class="keyword">and</span> b):      <span class="comment"># 而不是 & ,& 已经作为了逻辑运算符    短路运算</span></div><div class="line"><span class="keyword">if</span>(a <span class="keyword">or</span> b):       <span class="comment"># 而不是 | ，| 已经作为了逻辑运算符   短路运算</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">not</span> b):        <span class="comment"># not的优先级很低，not a == b表示的是not (a == b)</span></div><div class="line"></div><div class="line"><span class="comment"># 成员运算符</span></div><div class="line"><span class="keyword">if</span>(a <span class="keyword">in</span> list):</div><div class="line"><span class="keyword">if</span>(b <span class="keyword">not</span> <span class="keyword">in</span> list):</div><div class="line"></div><div class="line"><span class="comment"># 身份运算符</span></div><div class="line"><span class="keyword">if</span>(a <span class="keyword">is</span> b):     <span class="comment"># is 判断两个运算符是不是引用自同一个对象 id(a)等于id(b)返回 true</span></div><div class="line"><span class="keyword">if</span>(a <span class="keyword">is</span> <span class="keyword">not</span> b):</div><div class="line"><span class="comment"># 注：id() 函数用于获取对象的内存地址</span></div></pre></td></tr></table></figure>
+
+<h4 id="Python_循环语句">Python 循环语句</h4>
+<p>需要注意的是 for 循环<br><br>循环语句中同样支持 break, continue 语句</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> list:           <span class="comment"># list 中每一个元素</span></div><div class="line">    ...</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>):    <span class="comment"># 从1-&gt;9 不包含最后一个元素</span></div><div class="line">    ...</div></pre></td></tr></table></figure>
+
+<p>类似于 Java的 forEach 循环:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> a : arr){</div><div class="line">    ...</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="Python_格式化字符串">Python 格式化字符串</h4>
+<p>在字符串中插入相应的值，比 Java 的要方便许多</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">print(<span class="string">"My name is %s and my age is %d"</span> % (<span class="string">'Tom'</span>, <span class="number">88</span>))</div><div class="line"><span class="comment"># 扩展</span></div><div class="line">%c      格式化字符</div><div class="line">%s      格式化字符串</div><div class="line">%d      格式化整数</div><div class="line">%u      格式化无符号整形</div><div class="line">%f      格式化浮点数</div></pre></td></tr></table></figure>
+
+<h4 id="Python_变量作用域">Python 变量作用域</h4>
+<ul>
+<li><p>在 <code>if-elif-else 语句</code> <code>try/except语句</code> <code>for循环</code> <code>while循环</code> 中定义的变量，外部仍然可以访问</p>
+</li>
+<li><p>在 <code>def/class/lambda</code> 内进行赋值，就变成了其局部的作用域，局部作用域会覆盖全局作用域，但不会影响全局作用域。例如：</p>
+</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">g = <span class="number">1</span>       <span class="comment">#全局的</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">()</span>:</span></div><div class="line">    g = <span class="number">2</span>   <span class="comment">#局部的</span></div><div class="line">    g = g+<span class="number">1</span></div><div class="line"><span class="comment"># 此时，在函数中只有一个局部变量 g，且值变为 3; 函数外部只有全局变量 g，其值为 1</span></div><div class="line"></div><div class="line">g = <span class="number">1</span>       <span class="comment">#全局的</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">()</span>:</span></div><div class="line">    g = g+<span class="number">1</span></div><div class="line"><span class="comment"># 直接在函数内部对 g 进行改变会报错 local variable 'var' referenced before assignment</span></div></pre></td></tr></table></figure>
+
+<h4 id="Python_控制台输入">Python 控制台输入</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = raw_input(<span class="string">"Please input:"</span>)        <span class="comment"># raw_input()将所有的输入作为字符串来看待</span></div><div class="line">a = input(<span class="string">"Please input:"</span>)            <span class="comment"># input()只能输入正确的python表达式</span></div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在 Python3.x 中 raw_input( ) 和 input( ) 进行了整合，去除了 raw_input( )，仅保留了 input( ) 函数，其接收任意任性输入，将所有输入默认为字符串处理，并返回<code>字符串类型</code>。</p>
+</blockquote>
+<h4 id="Python_异常及其捕获">Python 异常及其捕获</h4>
+<ul>
+<li>Python 使用 raise 语句抛出一个指定的异常：</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">raise</span> NameError(<span class="string">'Here is an error'</span>)     <span class="comment"># raise 后面必须是一个Exception的子类或者子类实例</span></div></pre></td></tr></table></figure>
+
+<ul>
+<li>Python 异常的捕获使用 <code>try except</code> 语句：</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span>:</div><div class="line">    ...</div><div class="line"><span class="keyword">except</span> 异常<span class="number">1</span> <span class="keyword">as</span> err:</div><div class="line">    <span class="keyword">raise</span>                       <span class="comment"># 异常可以不处理再次抛出</span></div><div class="line"><span class="keyword">except</span> 异常<span class="number">2</span> <span class="keyword">as</span> err:</div><div class="line">    print(<span class="string">"error: {0}"</span>.format(err))</div><div class="line"><span class="keyword">else</span>:</div><div class="line">    <span class="comment"># else子句是可选的，它将在try子句没有发生任何异常的时候执行</span></div></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Python_基本知识及其与_Java、_JavaScript_的比较"><span class="toc-number">1.</span> <span class="toc-text">Python 基本知识及其与 Java、 JavaScript 的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标识符："><span class="toc-number">1.0.1.</span> <span class="toc-text">标识符：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建变量"><span class="toc-number">1.0.2.</span> <span class="toc-text">创建变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据类型"><span class="toc-number">1.0.3.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数声明"><span class="toc-number">1.0.4.</span> <span class="toc-text">函数声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命名规范："><span class="toc-number">1.0.5.</span> <span class="toc-text">命名规范：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注释"><span class="toc-number">1.0.6.</span> <span class="toc-text">注释</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于_Python"><span class="toc-number">2.</span> <span class="toc-text">关于 Python</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_琐碎知识集散地"><span class="toc-number">2.0.1.</span> <span class="toc-text">Python 琐碎知识集散地</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_的列表"><span class="toc-number">2.0.2.</span> <span class="toc-text">Python 的列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_的元组"><span class="toc-number">2.0.3.</span> <span class="toc-text">Python 的元组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_的字典"><span class="toc-number">2.0.4.</span> <span class="toc-text">Python 的字典</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_数据类型转换"><span class="toc-number">2.0.5.</span> <span class="toc-text">Python 数据类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_运算符"><span class="toc-number">2.0.6.</span> <span class="toc-text">Python 运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_循环语句"><span class="toc-number">2.0.7.</span> <span class="toc-text">Python 循环语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_格式化字符串"><span class="toc-number">2.0.8.</span> <span class="toc-text">Python 格式化字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_变量作用域"><span class="toc-number">2.0.9.</span> <span class="toc-text">Python 变量作用域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_控制台输入"><span class="toc-number">2.0.10.</span> <span class="toc-text">Python 控制台输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python_异常及其捕获"><span class="toc-number">2.0.11.</span> <span class="toc-text">Python 异常及其捕获</span></a></li></ol></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
