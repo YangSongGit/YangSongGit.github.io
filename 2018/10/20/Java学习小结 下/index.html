@@ -152,6 +152,187 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">class MessageImpl&lt;T&gt; implements Message&lt;T&gt;{ <span class="comment">// 子类直接以泛型的方式继承</span></div><div class="line">    <span class="comment">// 重新方法</span></div><div class="line">}</div><div class="line">Message&lt;String&gt; s = <span class="keyword">new</span> MessageImpl&lt;String&gt;();  <span class="comment">// 声明</span></div><div class="line"></div><div class="line">class MessageImpl implements Message&lt;String&gt;{   <span class="comment">// 子类继承时直接父接口指定类型</span></div><div class="line">    <span class="comment">// 重新方法</span></div><div class="line">}</div><div class="line">Message&lt;String&gt; s = <span class="keyword">new</span> MessageImpl(); <span class="comment">// 声明</span></div></pre></td></tr></table></figure>
 
 <h4 id="6-_在普通类中定义泛型方法">6. 在普通类中定义泛型方法</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class A{</div><div class="line">    <span class="keyword">int</span> id;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title">function</span>(T t){  <span class="comment">// 传入什么类型，就返回什么类型</span></div><div class="line">        ...</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="二十三、枚举_enum">二十三、枚举 enum</h3>
+<h4 id="1-_枚举的声明">1. 枚举的声明</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">enum</span> Color{RED, GREEN, BLACK}    <span class="comment">//枚举中的变量为常量，全部大写</span></div><div class="line">操作：</div><div class="line">Color.values();         <span class="comment">// 返回一个枚举类型的数组，里面包含了所有的值</span></div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>枚举可以在 switch 语句上使用<br>枚举属于高级的 <code>多例设计模式</code></p>
+</blockquote>
+<h4 id="2-_enum_和_Enum_的区别">2. enum 和 Enum 的区别</h4>
+<ul>
+<li>enum 是一个关键字，而 Enum 是一个抽象类</li>
+<li>使用 enum 定义的枚举就相当于一个类继承了 Enum 这个抽象类</li>
+</ul>
+<h3 id="二十四、_Annotation_注解">二十四、 Annotation 注解</h3>
+<p>java SE 支持自定义注解的开发，并且提供了三个常用的注解： <code>@Override</code> <code>@Deprecated</code>  <code>@SuppressWarnings</code></p>
+<h4 id="1-_@Override_——为了准确的重写">1. @Override  ——为了准确的重写</h4>
+<p>eg. 重写时写错了父类方法名，编译器会认为这是新方法，不予报错<br>解决： 在方法上一行加上 <code>@Override</code> 告诉编译器下面的方法为重写的方法，编译器就会进行检查。</p>
+<h4 id="2-_@Deprecated_——为了准确的重写">2. @Deprecated  ——为了准确的重写</h4>
+<p>eg. 之前的方法不再使用时, 在方法上一行加上 <code>@Deprecated</code> 告诉编译器下面的方法不再使用，此时方法名上会出现一道横线。</p>
+<h4 id="3-_@SuppressWarnings_——压制警告">3. @SuppressWarnings  ——压制警告</h4>
+<p>eg. 代码中出现黄线，欲去除，可以用压制警告方法，不需自己写，直接在 IDE 中操作即可生成。</p>
+<h3 id="二十五、_Java的新特性_from_1-8">二十五、 Java的新特性 from 1.8</h3>
+<h4 id="1-_接口中可以定义普通方法！_但是要使用_default_来声明">1. 接口中可以定义普通方法！ 但是要使用 <code>default</code> 来声明</h4>
+<p>作用： 便于该接口产生大量子类后对其进行功能的扩充而不用再修改每个字类对其进行实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">interface IMessage{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span>();        <span class="comment">// 这是接口中原来定义的方法，子类需实现</span></div><div class="line">    <span class="keyword">default</span> <span class="keyword">void</span> function(){    <span class="comment">// 这是普通方法 ，子类可以直接继承</span></div><div class="line">        <span class="comment">// 此处为函数实现</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="2-_Lamda_表达式_（为了简化面向对象编程，匿名内部类的过多使用。）（了解）">2. Lamda 表达式 （为了简化面向对象编程，匿名内部类的过多使用。）（了解）</h4>
+<p>Lamda 语法的三种形式：</p>
+<ul>
+<li>(参数) -&gt; 单行语句;</li>
+<li>(参数) -&gt; {多行语句;}</li>
+<li>(参数) -&gt; 表达式;</li>
+</ul>
+<h4 id="3-_方法引用_（为方法设置别名）（了解）">3. 方法引用  （为方法设置别名）（了解）</h4>
+<ul>
+<li>引用静态方法：        类名称 :: static 方法名称</li>
+<li>引用某个对象的方法：   实例化对象 ::  普通方法名称</li>
+<li>引用特定类型方法：   特定类 :: 普通方法名称</li>
+<li>引用构造方法：       类名称 :: new</li>
+</ul>
+<blockquote>
+<p>方法的引用需要有一个函数式接口，该接口要有注解 <code>FunctionInterface</code> 即接口中只能定义一个方法, 函数需设置好参数<br></p>
+</blockquote>
+<h4 id="Java_1-8_定义了四种函数式接口：">Java 1.8 定义了四种函数式接口：</h4>
+<blockquote>
+<p>需要 <code>import java.util.function.接口名</code></p>
+<ul>
+<li>功能型（Function）： 有参数，有返回值<br>  public interface Function&lt;T,R&gt;{public R apply(T, t);}</li>
+<li>消费型（Consumer）： 有参数，没有返回值<br>  public interface Consumer<t>{public void accept(T, t);}</t></li>
+<li>供给型（Supplier）： 没有参数，有返回值<br>  public interface Supplier<r>{public R get();}</r></li>
+<li>断言型（Predicate）：   进行判断<br>  public interface Predicate<t>{public R test(T, t);}</t></li>
+</ul>
+</blockquote>
+<h3 id="二十六、_Java_线程">二十六、 Java 线程</h3>
+<h4 id="1_继承_Thread_类,_重写父类_run（）_方法,_通过_子类对象-start()_方法启动">1 继承 Thread 类, 重写父类 run（） 方法, 通过 子类对象.start() 方法启动</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 线程类的创建</span></div><div class="line">class MyThread extends Thread{</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(){</div><div class="line">        <span class="keyword">super</span>.run();</div><div class="line">        <span class="comment">// 其他操作</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// 线程类的运行</span></div><div class="line">MyThread t = <span class="keyword">new</span> MyThread();</div><div class="line">t.start();</div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 Thread 类的 start() 方法不仅仅是启动多线程的执行代码，还要根据不同的操作系统进行资源的分配</p>
+</blockquote>
+<h4 id="2-_实现_Runnable_接口，实现run（）_方法，创建_Thread_类的对象并将线程类对象作为参数传进去，通过线程类对象-start()_启动">2. 实现 Runnable 接口，实现run（） 方法，创建 Thread 类的对象并将线程类对象作为参数传进去，通过线程类对象.start() 启动</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 线程类的创建</span></div><div class="line">class MyThread implements Runnable{</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(){</div><div class="line">        <span class="keyword">super</span>.run();</div><div class="line">        <span class="comment">// 其他操作</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// 线程类的启动</span></div><div class="line">MyThread t = <span class="keyword">new</span> MyThread();</div><div class="line">Thread t2 = <span class="keyword">new</span> Thread(t);</div><div class="line">t2.start();</div></pre></td></tr></table></figure>
+
+<h4 id="3-_多线程两种实现方式的区别">3. 多线程两种实现方式的区别</h4>
+<ul>
+<li>使用 Runnable 接口解决了 Java 的单继承问题</li>
+<li>Thread 类实现了 Runnable 接口， 通过 MyThread 类实现 Runnable 接口后，再通过 Thread 类来启动线程，看起来更像 <code>代理模式</code> ，只是代理模式客户端使用的方法应该为接口中提供的方法（Run方法）</li>
+<li>Runnable 接口可以比 Thread 类能够更好地描述数据共享（即多个线程访问统一资源的操作）的概念</li>
+</ul>
+<h4 id="4-_第三种实现方式——Callable接口_可以让线程返回结果(from_JDK1-5)">4. 第三种实现方式——Callable接口 可以让线程返回结果(from JDK1.5)</h4>
+<h4 id="5-_线程的命名与取得">5. 线程的命名与取得</h4>
+<blockquote>
+<p>java 会自动给未人为命名的线程命名，thread-0， thread-1，…</p>
+<ul>
+<li>通过构造方法</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="title">Thread</span>(Runnable target, String name);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>通过设置名字的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setName</span>(Runnable target, String name);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>取得名字的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">getName</span>();</div></pre></td></tr></table></figure>
+
+<ul>
+<li>取得当前线程</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Thread <span class="title">currentThread</span>();</div></pre></td></tr></table></figure>
+
+<h4 id="6-_Java_的进程与线程">6. Java 的进程与线程</h4>
+<ul>
+<li>每当用 java 命令执行一个程序时，对于 OS 而言，就相当于启动了一个进程，main 线程是进程上的一个线程，且可以继续创建子线程</li>
+<li>一个 JVM 进程启动时，至少启动：<ul>
+<li>main 线程</li>
+<li>gc 线程（垃圾收集）</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-_线程设置优先级">7. 线程设置优先级</h4>
+<ul>
+<li>Java 中三个优先级： MAX_PRIORITY 10, NORM_PRIORITY 5, MIN_PRIORITY 1</li>
+<li><code>setPriority(int priority) 方法</code></li>
+</ul>
+<h4 id="8-_线程的同步_synchronized">8. 线程的同步 synchronized</h4>
+<ul>
+<li>同步</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 同步代码块</span></div><div class="line"><span class="keyword">synchronized</span>(锁定对象 一般为 <span class="keyword">this</span>){</div><div class="line">    <span class="comment">// 需要同步的代码</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">// 同步方法</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> 方法名(){</div><div class="line">    <span class="comment">// 方法体</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ul>
+<li>线程等待与唤醒</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Object 类提供了 wait(), notify(), notifyAll() 方法</div></pre></td></tr></table></figure>
+
+<h3 id="二十六、_StringBuffer_类">二十六、 StringBuffer 类</h3>
+<ul>
+<li>StringBuffer 类的内容是可以进行修改的(使用append()方法)，而 String 的内容是不可以修改的（而是新建一个 String 并指向后者）所以若用到需要频繁修改的字符串，则用 StringBuffer 类</li>
+<li>String 类和 StringBuffer 类都实现了接口： CharSequence</li>
+</ul>
+<h4 id="1-_String_转换为_StringBuffer">1. String 转换为 StringBuffer</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 利用 StringBuffer 的构造方法</span></div><div class="line"><span class="keyword">public</span> <span class="title">StringBuffer</span>(String str);</div><div class="line"></div><div class="line"><span class="comment">// 利用 StringBuffer 的 append 方法</span></div><div class="line"><span class="keyword">public</span> StringBuffer <span class="title">append</span>(String str);</div></pre></td></tr></table></figure>
+
+<h4 id="2-_StringBuffer_转换为_String">2. StringBuffer 转换为 String</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 利用 StringBuffer 的 toString 方法</span></div><div class="line">String str = StringBuffer对象.toString();</div></pre></td></tr></table></figure>
+
+<h4 id="3-_StringBuffer_与_String_比较内容是否一致">3. StringBuffer 与 String 比较内容是否一致</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"Hello"</span>;</div><div class="line">StringBuffer buf = <span class="keyword">new</span> StringBuffer();</div><div class="line">buf.append(<span class="string">"Hello"</span>);</div><div class="line"><span class="comment">// 利用 String 类的 contentEquals 方法</span></div><div class="line"><span class="keyword">boolean</span> b = str.contentEquals(buf);</div></pre></td></tr></table></figure>
+
+<h4 id="4-_StringBuffer_类其他常用方法">4. StringBuffer 类其他常用方法</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// reverse()  字符串反转（逆序）</span></div><div class="line"><span class="keyword">public</span> StringBuffer <span class="title">reverse</span>();</div><div class="line"></div><div class="line"><span class="comment">// 将数据插在指定索引位置前面，即 offset 与 offset-1 之间，StringBuffer 内容从 0 开始计数</span></div><div class="line"><span class="keyword">public</span> StringBuffer <span class="title">insert</span>(<span class="keyword">int</span> offset, 添加的类型 添加的值);</div><div class="line"></div><div class="line"><span class="comment">// 删除内容</span></div><div class="line"><span class="keyword">public</span> StringBuffer <span class="title">delete</span>(<span class="keyword">int</span> start, <span class="keyword">int</span> end);  <span class="comment">// 删除一段内容</span></div><div class="line"><span class="keyword">public</span> StringBuffer <span class="title">deleteCharAt</span>(<span class="keyword">int</span> index);    <span class="comment">// 删除一个字符</span></div></pre></td></tr></table></figure>
+
+<h4 id="5-_String，StringBuffer，_StringBuilder_三个类的区别">5. String，StringBuffer， StringBuilder 三个类的区别</h4>
+<ul>
+<li>String 类的内容一旦声明，不可改变， StringBuilder 与 StringBuffer 类内容可以改变</li>
+<li>StringBuilder 与 StringBuffer 类功能几乎完全一致。</li>
+<li>StringBuffer 类是线程安全的， 方法都是同步方法；而StringBuilder 类的方法都为异步方法，不是线程安全的</li>
+</ul>
+<h3 id="二十七、_RunTime_类">二十七、 RunTime 类</h3>
+<ul>
+<li>每个 JVM 进程都存在一个 RunTime 类对象，这个类的主要功能</li>
+<li>RunTime 类构造方法私有化（单例设计模式），保障整个程序执行过程中只有一个该对象</li>
+</ul>
+<p>主要方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">totalMemory</span>();  <span class="comment">// 返回当前所有可用内存空间</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">maxMemory</span>();    <span class="comment">// 返回最大可用内存空间(极限情况情况下)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">freeMemory</span>();   <span class="comment">// 返回当前空余内存空间</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gc</span>();   <span class="comment">// 执行垃圾收集</span></div><div class="line"><span class="keyword">public</span> Process <span class="title">exec</span>(String command) <span class="keyword">throws</span> IOException;  <span class="comment">// 可用执行命令，返回一个进程对象，由Process对象的destroy()方法可以将进程删除</span></div></pre></td></tr></table></figure>
+
+<h3 id="二十八、_System_类">二十八、 System 类</h3>
+<ul>
+<li>Syetem 类使用 final 来声明</li>
+<li>常用方法：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">currentTimeMillis</span>();     <span class="comment">// 可以得到当前毫秒级时间，可以用来统计程序执行时间</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">gc</span>();    <span class="comment">// 调用 RunTime 类的 gc 方法来进行垃圾回收</span></div><div class="line"></div><div class="line">注：</div><div class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span>() <span class="keyword">throws</span> Throwable; <span class="comment">// 该方法来自Object类，任何类都可以重写，重写后该类对象被回收时会调用，类似于 C++ 中的析构方法</span></div></pre></td></tr></table></figure>
+
+<ul>
+<li>解释 final， finally， finalize的区别<ul>
+<li>final 关键字： 定义不能被继承的类，不能被重写的方法，以及常量</li>
+<li>finally 关键字： 定义异常处理的统一出口，即必须要执行的代码部分</li>
+<li>finalize 方法： 由 Object 类提供，任何类都可以重写，重写后该类对象被回收时会调用，类似于 C++ 中的析构方法</li>
+</ul>
+</li>
+</ul>
+<h3 id="二十九、_有关数学的类">二十九、 有关数学的类</h3>
+<h4 id="Math_类">Math 类</h4>
+<ul>
+<li>Math 类是一个工具类，方法全部为 static， 直接使用类名调用即可</li>
+<li>常用方法：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Math.round() <span class="comment">// 四舍五入到整形的方法，注意负数的话 大于5 才入，比如 round(-1.5)=-1 round(-1.51)=-2</span></div></pre></td></tr></table></figure>
+
+<h4 id="Random_类">Random 类</h4>
+<ul>
+<li>该类用于产生随机数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Random r = <span class="keyword">new</span> Random();</div><div class="line"><span class="keyword">int</span> a = r.nextInt(n);       <span class="comment">// 产生一个 int 类型随机数，范围为 0至n-1</span></div><div class="line"><span class="keyword">double</span> b = r.nextDouble();  <span class="comment">// 产生一个(0,1)的 double 值</span></div></pre></td></tr></table></figure>
+
+<h4 id="BigIntege_类">BigIntege 类</h4>
 <h3 id="其他">其他</h3>
 <h4 id="1-_可以使用_powerDesigner_来画_UML_图，不仅能够自行画图，还可以将已经写好的程序转换为_UML_类图">1. 可以使用 powerDesigner 来画 UML 图，不仅能够自行画图，还可以将已经写好的程序转换为 UML 类图</h4>
 <h4 id="2-_可变参数">2. 可变参数</h4>
@@ -162,6 +343,10 @@
 
 <h4 id="4-_静态导入">4. 静态导入</h4>
 <p>原本使用某包内某类的静态方法，导入该包后，仍需要：<br>    类名.静态方法();<br>通过静态导入：<br>    import static 包.类;<br>相当于直接将类中的静态方法导入到该类中,可以直接调用：<br>    静态方法();</p>
+<h4 id="5-_标识接口">5. 标识接口</h4>
+<blockquote>
+<p>常见接口内部含有静态常量（public static final）和抽象方法（public abstract）<br><br>标识接口没有方法，只是表示一种操作能力（eg. Cloneable 接口）</p>
+</blockquote>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
@@ -192,7 +377,7 @@
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#十九、_包"><span class="toc-number">1.</span> <span class="toc-text">十九、 包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_编译时根据包名生成目录"><span class="toc-number">1.1.</span> <span class="toc-text">1. 编译时根据包名生成目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_默认访问权限声明的类只能在本包访问"><span class="toc-number">1.2.</span> <span class="toc-text">2. 默认访问权限声明的类只能在本包访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_一个类_import_了不同包中的两个同名类，使用时应加上包名以作区分"><span class="toc-number">1.3.</span> <span class="toc-text">3. 一个类 import 了不同包中的两个同名类，使用时应加上包名以作区分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_Java_常见的开发包："><span class="toc-number">1.4.</span> <span class="toc-text">4. Java 常见的开发包：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_jar_命令"><span class="toc-number">1.5.</span> <span class="toc-text">5. jar 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_访问控制权限"><span class="toc-number">1.6.</span> <span class="toc-text">6. 访问控制权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十、_设计模式总结(编码)"><span class="toc-number">2.</span> <span class="toc-text">二十、 设计模式总结(编码)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_代理设计模式"><span class="toc-number">2.1.</span> <span class="toc-text">1. 代理设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_工厂设计模式"><span class="toc-number">2.2.</span> <span class="toc-text">2. 工厂设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_单例模式"><span class="toc-number">2.3.</span> <span class="toc-text">3. 单例模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十一、_异常"><span class="toc-number">3.</span> <span class="toc-text">二十一、 异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_打印异常信息:"><span class="toc-number">3.1.</span> <span class="toc-text">1. 打印异常信息:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_Error_,Exception_与_RuntimeException_的区别与联系"><span class="toc-number">3.2.</span> <span class="toc-text">2. Error ,Exception 与 RuntimeException 的区别与联系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_Java_异常处理流程"><span class="toc-number">3.3.</span> <span class="toc-text">3. Java 异常处理流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_throws_与_throws_的区别"><span class="toc-number">3.4.</span> <span class="toc-text">4. throws 与 throws 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_断言_assert"><span class="toc-number">3.5.</span> <span class="toc-text">5. 断言 assert</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十二、泛型"><span class="toc-number">4.</span> <span class="toc-text">二十二、泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_定义泛型类："><span class="toc-number">4.1.</span> <span class="toc-text">1. 定义泛型类：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_创建对象时应该用："><span class="toc-number">4.2.</span> <span class="toc-text">2. 创建对象时应该用：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_泛型中的通配符_?"><span class="toc-number">4.3.</span> <span class="toc-text">3. 泛型中的通配符 ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_泛型的上限与下限："><span class="toc-number">4.4.</span> <span class="toc-text">4. 泛型的上限与下限：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_泛型接口"><span class="toc-number">4.5.</span> <span class="toc-text">5. 泛型接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_在普通类中定义泛型方法"><span class="toc-number">4.6.</span> <span class="toc-text">6. 在普通类中定义泛型方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">5.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_可以使用_powerDesigner_来画_UML_图，不仅能够自行画图，还可以将已经写好的程序转换为_UML_类图"><span class="toc-number">5.1.</span> <span class="toc-text">1. 可以使用 powerDesigner 来画 UML 图，不仅能够自行画图，还可以将已经写好的程序转换为 UML 类图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_可变参数"><span class="toc-number">5.2.</span> <span class="toc-text">2. 可变参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_for_each_循环"><span class="toc-number">5.3.</span> <span class="toc-text">3. for each 循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_静态导入"><span class="toc-number">5.4.</span> <span class="toc-text">4. 静态导入</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#十九、_包"><span class="toc-number">1.</span> <span class="toc-text">十九、 包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_编译时根据包名生成目录"><span class="toc-number">1.1.</span> <span class="toc-text">1. 编译时根据包名生成目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_默认访问权限声明的类只能在本包访问"><span class="toc-number">1.2.</span> <span class="toc-text">2. 默认访问权限声明的类只能在本包访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_一个类_import_了不同包中的两个同名类，使用时应加上包名以作区分"><span class="toc-number">1.3.</span> <span class="toc-text">3. 一个类 import 了不同包中的两个同名类，使用时应加上包名以作区分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_Java_常见的开发包："><span class="toc-number">1.4.</span> <span class="toc-text">4. Java 常见的开发包：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_jar_命令"><span class="toc-number">1.5.</span> <span class="toc-text">5. jar 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_访问控制权限"><span class="toc-number">1.6.</span> <span class="toc-text">6. 访问控制权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十、_设计模式总结(编码)"><span class="toc-number">2.</span> <span class="toc-text">二十、 设计模式总结(编码)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_代理设计模式"><span class="toc-number">2.1.</span> <span class="toc-text">1. 代理设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_工厂设计模式"><span class="toc-number">2.2.</span> <span class="toc-text">2. 工厂设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_单例模式"><span class="toc-number">2.3.</span> <span class="toc-text">3. 单例模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十一、_异常"><span class="toc-number">3.</span> <span class="toc-text">二十一、 异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_打印异常信息:"><span class="toc-number">3.1.</span> <span class="toc-text">1. 打印异常信息:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_Error_,Exception_与_RuntimeException_的区别与联系"><span class="toc-number">3.2.</span> <span class="toc-text">2. Error ,Exception 与 RuntimeException 的区别与联系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_Java_异常处理流程"><span class="toc-number">3.3.</span> <span class="toc-text">3. Java 异常处理流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_throws_与_throws_的区别"><span class="toc-number">3.4.</span> <span class="toc-text">4. throws 与 throws 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_断言_assert"><span class="toc-number">3.5.</span> <span class="toc-text">5. 断言 assert</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十二、泛型"><span class="toc-number">4.</span> <span class="toc-text">二十二、泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_定义泛型类："><span class="toc-number">4.1.</span> <span class="toc-text">1. 定义泛型类：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_创建对象时应该用："><span class="toc-number">4.2.</span> <span class="toc-text">2. 创建对象时应该用：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_泛型中的通配符_?"><span class="toc-number">4.3.</span> <span class="toc-text">3. 泛型中的通配符 ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_泛型的上限与下限："><span class="toc-number">4.4.</span> <span class="toc-text">4. 泛型的上限与下限：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_泛型接口"><span class="toc-number">4.5.</span> <span class="toc-text">5. 泛型接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_在普通类中定义泛型方法"><span class="toc-number">4.6.</span> <span class="toc-text">6. 在普通类中定义泛型方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十三、枚举_enum"><span class="toc-number">5.</span> <span class="toc-text">二十三、枚举 enum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_枚举的声明"><span class="toc-number">5.1.</span> <span class="toc-text">1. 枚举的声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_enum_和_Enum_的区别"><span class="toc-number">5.2.</span> <span class="toc-text">2. enum 和 Enum 的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十四、_Annotation_注解"><span class="toc-number">6.</span> <span class="toc-text">二十四、 Annotation 注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_@Override_——为了准确的重写"><span class="toc-number">6.1.</span> <span class="toc-text">1. @Override  ——为了准确的重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_@Deprecated_——为了准确的重写"><span class="toc-number">6.2.</span> <span class="toc-text">2. @Deprecated  ——为了准确的重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_@SuppressWarnings_——压制警告"><span class="toc-number">6.3.</span> <span class="toc-text">3. @SuppressWarnings  ——压制警告</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十五、_Java的新特性_from_1-8"><span class="toc-number">7.</span> <span class="toc-text">二十五、 Java的新特性 from 1.8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_接口中可以定义普通方法！_但是要使用_default_来声明"><span class="toc-number">7.1.</span> <span class="toc-text">1. 接口中可以定义普通方法！ 但是要使用 default 来声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_Lamda_表达式_（为了简化面向对象编程，匿名内部类的过多使用。）（了解）"><span class="toc-number">7.2.</span> <span class="toc-text">2. Lamda 表达式 （为了简化面向对象编程，匿名内部类的过多使用。）（了解）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_方法引用_（为方法设置别名）（了解）"><span class="toc-number">7.3.</span> <span class="toc-text">3. 方法引用  （为方法设置别名）（了解）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java_1-8_定义了四种函数式接口："><span class="toc-number">7.4.</span> <span class="toc-text">Java 1.8 定义了四种函数式接口：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十六、_Java_线程"><span class="toc-number">8.</span> <span class="toc-text">二十六、 Java 线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1_继承_Thread_类,_重写父类_run（）_方法,_通过_子类对象-start()_方法启动"><span class="toc-number">8.1.</span> <span class="toc-text">1 继承 Thread 类, 重写父类 run（） 方法, 通过 子类对象.start() 方法启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_实现_Runnable_接口，实现run（）_方法，创建_Thread_类的对象并将线程类对象作为参数传进去，通过线程类对象-start()_启动"><span class="toc-number">8.2.</span> <span class="toc-text">2. 实现 Runnable 接口，实现run（） 方法，创建 Thread 类的对象并将线程类对象作为参数传进去，通过线程类对象.start() 启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_多线程两种实现方式的区别"><span class="toc-number">8.3.</span> <span class="toc-text">3. 多线程两种实现方式的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_第三种实现方式——Callable接口_可以让线程返回结果(from_JDK1-5)"><span class="toc-number">8.4.</span> <span class="toc-text">4. 第三种实现方式——Callable接口 可以让线程返回结果(from JDK1.5)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_线程的命名与取得"><span class="toc-number">8.5.</span> <span class="toc-text">5. 线程的命名与取得</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_Java_的进程与线程"><span class="toc-number">8.6.</span> <span class="toc-text">6. Java 的进程与线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-_线程设置优先级"><span class="toc-number">8.7.</span> <span class="toc-text">7. 线程设置优先级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-_线程的同步_synchronized"><span class="toc-number">8.8.</span> <span class="toc-text">8. 线程的同步 synchronized</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十六、_StringBuffer_类"><span class="toc-number">9.</span> <span class="toc-text">二十六、 StringBuffer 类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_String_转换为_StringBuffer"><span class="toc-number">9.1.</span> <span class="toc-text">1. String 转换为 StringBuffer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_StringBuffer_转换为_String"><span class="toc-number">9.2.</span> <span class="toc-text">2. StringBuffer 转换为 String</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_StringBuffer_与_String_比较内容是否一致"><span class="toc-number">9.3.</span> <span class="toc-text">3. StringBuffer 与 String 比较内容是否一致</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_StringBuffer_类其他常用方法"><span class="toc-number">9.4.</span> <span class="toc-text">4. StringBuffer 类其他常用方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_String，StringBuffer，_StringBuilder_三个类的区别"><span class="toc-number">9.5.</span> <span class="toc-text">5. String，StringBuffer， StringBuilder 三个类的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十七、_RunTime_类"><span class="toc-number">10.</span> <span class="toc-text">二十七、 RunTime 类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十八、_System_类"><span class="toc-number">11.</span> <span class="toc-text">二十八、 System 类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二十九、_有关数学的类"><span class="toc-number">12.</span> <span class="toc-text">二十九、 有关数学的类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Math_类"><span class="toc-number">12.1.</span> <span class="toc-text">Math 类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Random_类"><span class="toc-number">12.2.</span> <span class="toc-text">Random 类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BigIntege_类"><span class="toc-number">12.3.</span> <span class="toc-text">BigIntege 类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">13.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_可以使用_powerDesigner_来画_UML_图，不仅能够自行画图，还可以将已经写好的程序转换为_UML_类图"><span class="toc-number">13.1.</span> <span class="toc-text">1. 可以使用 powerDesigner 来画 UML 图，不仅能够自行画图，还可以将已经写好的程序转换为 UML 类图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_可变参数"><span class="toc-number">13.2.</span> <span class="toc-text">2. 可变参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_for_each_循环"><span class="toc-number">13.3.</span> <span class="toc-text">3. for each 循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_静态导入"><span class="toc-number">13.4.</span> <span class="toc-text">4. 静态导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_标识接口"><span class="toc-number">13.5.</span> <span class="toc-text">5. 标识接口</span></a></li></ol></li></ol>
         </div>
     
 </div>
