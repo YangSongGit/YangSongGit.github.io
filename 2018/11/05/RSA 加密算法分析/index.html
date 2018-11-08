@@ -54,7 +54,8 @@
 
         </div>
         <div class="content markdown">
-            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 
 <p>RSA加密算法是一种非对称加密算法。在公开密钥加密和电子商业中被广泛使用。RSA是1977年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起提出的。RSA就是他们三人姓氏开头字母的组合。本文介绍了该加密算法的各个步骤以及一些相关知识。<br><a id="more"></a></p>
 <p>参考资料：</p>
@@ -62,52 +63,63 @@
 <li><a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem" target="_blank" rel="external">RSA加密算法 ——WikiPedia</a>) </li>
 <li><a href="http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html" target="_blank" rel="external">RSA算法原理 ——阮一峰</a></li>
 </ul>
-<h2 id="公私钥的计算">公私钥的计算</h2>
-<h4 id="选择两个初始的质数_p，q">选择两个初始的质数 p，q</h4>
-<p>p, q 越大，则密钥越难破解<br>    此处选择 p = 47; q = 71</p>
-<h4 id="计算_n_=_p*q">计算 n = p*q</h4>
-<p>n 的二进制位数即为密钥的位数，此处 n 为：<br>    n = p<em>q = 47</em>71 = 3337<br>3337 的二进制表示为 1 1010 0001 0010，则密钥为 13 位</p>
-<h4 id="计算_n_的欧拉函数_$_\phi_(n)_=_(p-1)(q-1)_$">计算 n 的欧拉函数 $ \phi (n) = (p-1)(q-1) $</h4>
-<pre><code><span class="variable">$ </span>\phi(n) = (p-<span class="number">1</span>)(q-<span class="number">1</span>) <span class="variable">$ </span>= <span class="number">46</span>*<span class="number">70</span> = <span class="number">3220</span> 
-</code></pre><h4 id="选取数字_e_使得满足以下条件：">选取数字 e 使得满足以下条件：</h4>
-<ul>
-<li>$ 1 &lt; e &lt; \phi (n) $</li>
-<li>e 需要与 $ \phi (n) $ 互质<br>  比如这里选择 e = 79</li>
-</ul>
-<h4 id="计算数字_d_使得_d_满足：">计算数字 d 使得 d 满足：</h4>
-<p>$ e<em>d \equiv 1 (mod \: \phi (n) ) $<br>即： e</em>d-1 = k*$ \phi (n) $   其中 k 为自然数</p>
+<h2 id="一、公私钥的计算">一、公私钥的计算</h2>
+<h4 id="1-选择两个初始的质数_p，q">1.选择两个初始的质数 p，q</h4>
+<p>p, q 越大，则密钥越难破解</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">此处选择 <span class="variable">p =</span> <span class="number">47</span>; <span class="variable">q =</span> <span class="number">71</span></div></pre></td></tr></table></figure>
+
+<h4 id="2-计算_n_=_p*q">2.计算 n = p*q</h4>
+<p>n 的二进制位数即为密钥的位数，此处 n 为：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">n = p<span class="keyword">*</span>q = 47<span class="keyword">*</span>71 = 3337</div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3337 的二进制表示为 1 1010 0001 0010，则密钥为 13 位</p>
+</blockquote>
+<h4 id="3-计算_n_的欧拉函数">3.计算 n 的欧拉函数</h4>
+<p>$$ \phi(n) = (p-1)(q-1) $$</p>
+<pre><code><span class="attribute">根据公式可以算出： 46*70 </span>=<span class="string"> 3220 </span>
+</code></pre><h4 id="4-选取数字_e_使得满足以下条件：">4.选取数字 e 使得满足以下条件：</h4>
+<p>- \( 1 &lt; e &lt; \phi (n) \)</p>
+<p>- e 需要与 \( \phi (n) \) 互质</p>
+<pre><code><span class="attribute">比如这里选择 e </span>=<span class="string"> 79</span>
+</code></pre><h4 id="5-计算数字_d_使得_d_满足：">5.计算数字 d 使得 d 满足：</h4>
+<p>$$ e*d \equiv 1 (mod \: \phi (n) ) $$</p>
+<p>即： ed-1 = k\(\phi (n)\)   其中 k 为自然数</p>
 <pre><code><span class="attribute">算出 d </span>=<span class="string"> 1019</span>
 </code></pre><blockquote>
 <p>关于 d 的求法， 使用 拓展的欧几里得算法，后面会进行介绍</p>
 </blockquote>
-<h4 id="此时即可得到公钥和私钥">此时即可得到公钥和私钥</h4>
+<h4 id="6-此时即可得到公钥和私钥">6.此时即可得到公钥和私钥</h4>
 <ul>
 <li>公钥为：(n,e)</li>
 <li>私钥为：(n,d)</li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">公钥为：(3337,79)</div><div class="line">私钥为：(3337,1019)</div></pre></td></tr></table></figure>
 
-<h2 id="公私钥的使用">公私钥的使用</h2>
+<p><br><br></p>
+<h2 id="二、公私钥的使用">二、公私钥的使用</h2>
 <p>公钥顾名思义是公之于众的，而私钥必须自己妥善保管，一旦泄露，后果很严重。<br><br>假设以上密钥为 Tom 生成， Jerry 想给 Tom 发送保密信息 m，则步骤如下： </p>
-<h4 id="Jerry_使用_Tom_的公钥_(n,e)_对信息_m_进行加密">Jerry 使用 Tom 的公钥 (n,e) 对信息 m 进行加密</h4>
+<h4 id="1-Jerry_使用_Tom_的公钥_(n,e)_对信息_m_进行加密">1.Jerry 使用 Tom 的公钥 (n,e) 对信息 m 进行加密</h4>
 <p>注意：</p>
 <ul>
 <li>m 须为一个整数，且 m &lt; n</li>
 <li>若为字符串序列，转为发送 m 的 ASCII 码或者 Unicode 码</li>
 </ul>
-<p>假设 Jerry 想发的信息 m = 688，根据公式：<br>$ m^e \equiv c (mod \: n ) $</p>
+<p>假设 Jerry 想发的信息 m = 688，根据公式：<br>$$ m^e \equiv c (mod \: n ) $$</p>
 <pre><code><span class="attribute">计算出 c </span>=<span class="string"> 1570</span>
 </code></pre><p>所以 Jerry 将 c(1570) 发送给 Tom</p>
-<h4 id="Tom_使用自己的密钥_(n,d)_对信息_m_进行解密">Tom 使用自己的密钥 (n,d) 对信息 m 进行解密</h4>
-<p>根据公式：<br>$ c^d \equiv m (mod \: n ) $</p>
+<h4 id="2-Tom_使用自己的密钥_(n,d)_对信息_m_进行解密">2.Tom 使用自己的密钥 (n,d) 对信息 m 进行解密</h4>
+<p>根据公式：<br>$$ c^d \equiv m (mod \: n ) $$</p>
 <pre><code><span class="attribute">计算还原出 m </span>=<span class="string"> 688</span>
 </code></pre><p>所以 Tom 拿到真实信息</p>
-<h2 id="关于_RSA_算法的安全性">关于 RSA 算法的安全性</h2>
-<h4 id="RSA_算法的安全性基于极大整数因数分解在目前计算上的不可行">RSA 算法的安全性基于极大整数因数分解在目前计算上的不可行</h4>
+<p><br><br></p>
+<h2 id="三、关于_RSA_算法的安全性">三、关于 RSA 算法的安全性</h2>
+<h4 id="1-RSA_算法的安全性基于极大整数因数分解在目前计算上的不可行">1.RSA 算法的安全性基于极大整数因数分解在目前计算上的不可行</h4>
 <p>假如有人想要对 Jerry 发送的信息 c 进行破解，他需要破解 Tom 的私钥 d，要想求解 d 则需要分解 n，当 n 很大的时候，这个分解在当前计算机的算力下是极难的</p>
-<h4 id="量子计算机对_RSA_的影响">量子计算机对 RSA 的影响</h4>
+<h4 id="2-量子计算机对_RSA_的影响">2.量子计算机对 RSA 的影响</h4>
 <p>1994年彼得·秀尔（Peter Shor）证明一台量子计算机可以在 <code>多项式时间</code> 内进行因数分解。假如量子计算机有朝一日可以成为一种可行的技术的话，那么秀尔的算法可以淘汰RSA和相关的派生算法。<br>———— from Wikipedia</p>
-<h2 id="拓展的欧几里得算法">拓展的欧几里得算法</h2>
+<p><br><br></p>
+<h2 id="四、拓展的欧几里得算法">四、拓展的欧几里得算法</h2>
 <p>欧几里得算法又称为 “辗转相除法”，关于第一部分如何使用拓展的欧几里得算法求 <code>模反元素</code> ，维基百科上有详细的介绍：</p>
 <p><a href="https://zh.wikipedia.org/zh-hans/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95" target="_blank" rel="external">拓展的欧几里得算法</a></p>
 
@@ -132,7 +144,7 @@
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#公私钥的计算"><span class="toc-number">1.</span> <span class="toc-text">公私钥的计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选择两个初始的质数_p，q"><span class="toc-number">1.0.1.</span> <span class="toc-text">选择两个初始的质数 p，q</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#计算_n_=_p*q"><span class="toc-number">1.0.2.</span> <span class="toc-text">计算 n = p*q</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#计算_n_的欧拉函数_$_\phi_(n)_=_(p-1)(q-1)_$"><span class="toc-number">1.0.3.</span> <span class="toc-text">计算 n 的欧拉函数 $ \phi (n) = (p-1)(q-1) $</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选取数字_e_使得满足以下条件："><span class="toc-number">1.0.4.</span> <span class="toc-text">选取数字 e 使得满足以下条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#计算数字_d_使得_d_满足："><span class="toc-number">1.0.5.</span> <span class="toc-text">计算数字 d 使得 d 满足：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#此时即可得到公钥和私钥"><span class="toc-number">1.0.6.</span> <span class="toc-text">此时即可得到公钥和私钥</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公私钥的使用"><span class="toc-number">2.</span> <span class="toc-text">公私钥的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jerry_使用_Tom_的公钥_(n,e)_对信息_m_进行加密"><span class="toc-number">2.0.1.</span> <span class="toc-text">Jerry 使用 Tom 的公钥 (n,e) 对信息 m 进行加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tom_使用自己的密钥_(n,d)_对信息_m_进行解密"><span class="toc-number">2.0.2.</span> <span class="toc-text">Tom 使用自己的密钥 (n,d) 对信息 m 进行解密</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于_RSA_算法的安全性"><span class="toc-number">3.</span> <span class="toc-text">关于 RSA 算法的安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA_算法的安全性基于极大整数因数分解在目前计算上的不可行"><span class="toc-number">3.0.1.</span> <span class="toc-text">RSA 算法的安全性基于极大整数因数分解在目前计算上的不可行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#量子计算机对_RSA_的影响"><span class="toc-number">3.0.2.</span> <span class="toc-text">量子计算机对 RSA 的影响</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展的欧几里得算法"><span class="toc-number">4.</span> <span class="toc-text">拓展的欧几里得算法</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、公私钥的计算"><span class="toc-number">1.</span> <span class="toc-text">一、公私钥的计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-选择两个初始的质数_p，q"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.选择两个初始的质数 p，q</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-计算_n_=_p*q"><span class="toc-number">1.0.2.</span> <span class="toc-text">2.计算 n = p*q</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-计算_n_的欧拉函数"><span class="toc-number">1.0.3.</span> <span class="toc-text">3.计算 n 的欧拉函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-选取数字_e_使得满足以下条件："><span class="toc-number">1.0.4.</span> <span class="toc-text">4.选取数字 e 使得满足以下条件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-计算数字_d_使得_d_满足："><span class="toc-number">1.0.5.</span> <span class="toc-text">5.计算数字 d 使得 d 满足：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-此时即可得到公钥和私钥"><span class="toc-number">1.0.6.</span> <span class="toc-text">6.此时即可得到公钥和私钥</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、公私钥的使用"><span class="toc-number">2.</span> <span class="toc-text">二、公私钥的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Jerry_使用_Tom_的公钥_(n,e)_对信息_m_进行加密"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.Jerry 使用 Tom 的公钥 (n,e) 对信息 m 进行加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Tom_使用自己的密钥_(n,d)_对信息_m_进行解密"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.Tom 使用自己的密钥 (n,d) 对信息 m 进行解密</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、关于_RSA_算法的安全性"><span class="toc-number">3.</span> <span class="toc-text">三、关于 RSA 算法的安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-RSA_算法的安全性基于极大整数因数分解在目前计算上的不可行"><span class="toc-number">3.0.1.</span> <span class="toc-text">1.RSA 算法的安全性基于极大整数因数分解在目前计算上的不可行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-量子计算机对_RSA_的影响"><span class="toc-number">3.0.2.</span> <span class="toc-text">2.量子计算机对 RSA 的影响</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、拓展的欧几里得算法"><span class="toc-number">4.</span> <span class="toc-text">四、拓展的欧几里得算法</span></a></li></ol>
         </div>
     
 </div>
