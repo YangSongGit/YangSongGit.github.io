@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Getting Started with Rails ——搭建博客</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Getting Started with Rails ——搭建博客</h1>
+        <div class="stuff">
+            <span>十一月 14, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Rails/">Rails</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Ruby/">Ruby</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>Getting Started with Rails!<br>Rails 官方文档学习记录<br><a id="more"></a></p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://guides.rubyonrails.org/getting_started.html" target="_blank" rel="external">Rails Guide</a> </li>
+<li><a href="https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/getting_started.html" target="_blank" rel="external">Rails Guide 中文版</a> </li>
+<li><a href="https://www.youtube.com/watch?v=OaDhY_y8WTo" target="_blank" rel="external">Rails 搭建简易 blog 视频</a></li>
+</ul>
+<h4 id="1-_预安装好一些软件：">1. 预安装好一些软件：</h4>
+<ul>
+<li>Ruby 1.9.3 及以上版本</li>
+<li>包管理工具 RubyGems，随 Ruby 1.9+ 安装。</li>
+<li>SQLite3 数据库</li>
+<li>rails</li>
+</ul>
+<p>查询各个软件版本：</p>
+<figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ruby -v</div><div class="line">rails --version</div><div class="line">sqlite3 --version</div></pre></td></tr></table></figure>
+
+<h4 id="2-_创建_blog_Application">2. 创建 blog Application</h4>
+<pre><code>rails <span class="keyword">new</span> blog
+<span class="keyword">cd</span> blog
+</code></pre><p><img src="./Image_starts_on_Rails/blogapp.png" alt=""></p>
+<h4 id="3-_Starting_up_the_Web_Server">3. Starting up the Web Server</h4>
+<pre><code>cd bin  <span class="comment">// 进入到 blog/bin 目录下</span>
+rails <span class="keyword">server</span>
+</code></pre><p>启动 server 后，此时浏览器打开 <code>http://localhost:3000</code>,便可以看见 rails 首页：</p>
+<p><img src="./Image_starts_on_Rails/首页.png" alt="rails 首页"></p>
+<h4 id="4-_控制器，动作与视图">4. 控制器，动作与视图</h4>
+<blockquote>
+<p>控制器用来接受向程序发起的请求。路由决定哪个控制器会接受到这个请求。<br>一般情况下，每个控制器都有多个路由，对应不同的动作。动作用来提供视图中需要的数据。</p>
+</blockquote>
+<pre><code>rails generate controller Controller名 Action名
+
+// eg：创建一个名为 Welcome 的 controller 和一个名为 <span class="built_in">index</span> 的 Action
+ rails generate controller Welcome <span class="built_in">index</span>
+// 该命令创建的最重要的文件以及路由：
+ controller 文件     位置：app/controllers/welcome_controller.rb
+ <span class="keyword">view</span> 文件           位置：app/views/welcome/<span class="built_in">index</span>.html.erb
+ route               <span class="built_in">get</span> <span class="string">'welcome/index'</span>
+</code></pre><blockquote>
+<p>.erb 文件为 eRuby（嵌入式Ruby）编写，一般用来写视图<br><br>从 view 的文件名可看出它是与相应的动作绑定的</p>
+</blockquote>
+<p>我们可以修改 view 文件，打开 <code>app/views/welcome/index.html.erb</code> 文件，将里面内容改为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">h1</span>&gt;</span> Hello Rails!! <span class="tag">&lt;<span class="title">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">p</span>&gt;</span> Find me in app/views/welcome/index.html.erb <span class="tag">&lt;<span class="title">p</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>然后使用在 bin 目录下使用 <code>rails server</code> 启动服务器，再访问该视图对应的 URL：<br><code>http://localhost:3000</code> + <code>该视图对应 route</code><br>即： <code>http://localhost:3000/welcome/index</code> 即可看到该页面显示：</p>
+<p><img src="./Image_starts_on_Rails/hellorails.png" alt="rails 视图"></p>
+<h4 id="5-_将某个_view_设为首页">5. 将某个 view 设为首页</h4>
+<blockquote>
+<p>如果想访问 <code>http://localhost:3000</code> 便能直接访问到我们刚刚设置的欢迎界面，需要修改 <code>config/routes.rb</code> 路由配置文件：</p>
+</blockquote>
+<p>添加一行：<br>    root ‘welcome#index’<br>该句告知 Rails，访问程序的根路径时，交给 <code>welcome 控制器</code> 下 <code>index 动作</code> 处理，所以对应的页面即 <code>app/views/welcome/index.html.erb</code> 为首页</p>
+<p>此时直接访问： <code>http://localhost:3000</code> ，会发现首页设置完毕：<br><img src="./Image_starts_on_Rails/设置首页.png" alt="rails 视图"></p>
+<h4 id="6-_添加资源">6. 添加资源</h4>
+<blockquote>
+<p>资源是指一系列类似的对象，比如文章，人和动物。<br><br>资源可以被创建、读取、更新和删除，这些操作简称 CRUD<br><br>注意：一般情况下，Rails 建议使用资源对象，而不手动设置路由</p>
+</blockquote>
+<p>修改 <code>config/routes.rb</code> 路由配置文件：</p>
+<p>添加一行：<br>    resources :articles</p>
+<p>控制器就是一个类，继承自 ApplicationController。在这个类中定义的方法就是控制器的动作。动作的作用是处理文章的 CRUD 操作</p>
+<p>访问某个 URL 时，比如访问：<br>    <a href="http://localhost:3000/articles#new" target="_blank" rel="external">http://localhost:3000/articles#new</a></p>
+<p>若没有控制器 <code>ArticlesController</code>，则报错：<br>    Routing Error</p>
+<p>新建控制器，若未定义处理该 URL 的动作 <code>new</code>，则报错：<br>    Unknown action</p>
+<p>定义相应的函数 new 后，若没有相应的 视图 返回，则报错：<br>    ActionController::UnknownFormat in ArticlesController#new</p>
+<p>再在 view 文件夹下新建视图 <code>new.html.erb</code> 里面放置要返回的页面。<br>此时再访问 <code>http://localhost:3000/articles#new</code> 即可正常看到相应的页面</p>
+<blockquote>
+<p>URL 中的 articles 对应控制器为： ArticlesController，声明该控制器的文件名为：articles_controller.rb<br><br>ArticlesController 还是文件 articles_controller.rb 中的一个类，继承自类 ApplicationController<br><br>类中定义的方法即为动作，比如URL中的 new 对应该类中的 new 方法</p>
+</blockquote>
+<h4 id="创建_Article_模型">创建 Article 模型</h4>
+<pre><code>bin/rails generate model Article title:<span class="keyword">string</span> <span class="keyword">text</span>:<span class="keyword">text</span>
+</code></pre><p>这个命令告知 Rails，我们要创建 <code>Article</code> 模型，以及一个字符串属性 title 和文本属性 text。这两个属性会自动添加到 <code>articles</code> 数据表中，映射到 Article 模型。</p>
+<p>命令生成的文件中，比较重要的有：</p>
+<ul>
+<li>app/models/article.rb</li>
+<li>db/migrate/20181117050805_create_articles.rb   // 数据库迁移文件，用于创建数据库结构</li>
+</ul>
+<blockquote>
+<p>模型的名字使用单数，对应的数据表名使用复数</p>
+</blockquote>
+<h4 id="运行迁移(根据迁移文件进行数据库表的创建等操作)">运行迁移(根据迁移文件进行数据库表的创建等操作)</h4>
+<pre><code>bin/rake <span class="keyword">d</span><span class="variable">b:migrate</span>
+</code></pre><p>Rails 会执行迁移操作，并创建 articles 表，模型的属性与表的字段一一对应</p>
+<h4 id="数据存储到数据库中">数据存储到数据库中</h4>
+<p>修改 articles_controller.rb 文件的控制器类，在 create 方法中添加：</p>
+<figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> </span>create</div><div class="line">  <span class="variable">@article</span> = <span class="constant">Article</span>.new(params[<span class="symbol">:article</span>])</div><div class="line"> </div><div class="line">  <span class="variable">@article</span>.save</div><div class="line">  redirect_to <span class="variable">@article</span></div><div class="line"><span class="keyword">end</span></div><div class="line"><span class="comment"># 上面代码其实会报错： ActiveModel::ForbiddenAttributesError,因为违反了 Rails 的 `“健壮参数”` 规则。所以应改为：</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> </span>create</div><div class="line">  <span class="variable">@article</span> = <span class="constant">Article</span>.new(article_params)</div><div class="line"> </div><div class="line">  <span class="variable">@article</span>.save</div><div class="line">  redirect_to <span class="variable">@article</span></div><div class="line"><span class="keyword">end</span></div><div class="line"> </div><div class="line">private</div><div class="line">  <span class="function"><span class="keyword">def</span> </span>article_params</div><div class="line">    params.<span class="keyword">require</span>(<span class="symbol">:article</span>).permit(<span class="symbol">:title</span>, <span class="symbol">:text</span>)</div><div class="line">  <span class="keyword">end</span></div><div class="line"><span class="comment"># article_params 是私有方法。这种用法可以防止攻击者把修改后的属性传递给模型</span></div></pre></td></tr></table></figure>
+
+<h4 id="显示文章">显示文章</h4>
+<p>修改 articles_controller.rb 文件的控制器类，添加 show 方法：</p>
+<figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> </span>show</div><div class="line">  <span class="variable">@article</span> = <span class="constant">Article</span>.find(params[<span class="symbol">:id</span>])</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+
+<p>上面将模型 Article 中的属性值保存在 <code>@article</code> 变量中,以便视图调用。<br>视图目录 <code>views/articles</code> 中创建文件：<code>show.html.erb</code>,使用 <code>@article</code> 变量来向页面输出内容:</p>
+<figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;</div><div class="line">&lt;strong&gt;Title:&lt;/strong&gt;</div><div class="line">&lt;%= @article.title %&gt;</div><div class="line">&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;</div><div class="line">&lt;strong&gt;Text:&lt;/strong&gt;</div><div class="line">&lt;%= @article.text %&gt;</div><div class="line">&lt;/p&gt;</div></pre></td></tr></table></figure>
+
+<p>此时再重新访问博客页面，即可完成创建一篇博文的操作，整个过程如下：</p>
+<ul>
+<li>输入 URL <code>http://localhost:3000/articles/new</code>，回车</li>
+<li>该 URL 被传到服务器，使用指定的 Controller 也就是 ArticlesController 来进行解析</li>
+<li>article 调用指定的 Action 也就是 new 方法来进行处理，并返回其对应的 View 也就是 new.html.erb 到浏览器显示。</li>
+<li><p>用户在返回的页面中输入博客标题，内容，点击提交。根据 rake routes 所显示的标准的 REST 动作, 此时表单会发起 POST 请求，其路由对应于 ArticlesController 控制器的 create 动作</p>
+</li>
+<li><p>该路由被 ArticlesController 的 create 方法处理，create 方法将创建一个模型实例，接收对应参数，并且保存到数据库中。create 方法最后有个重定向</p>
+</li>
+<li><p>然后调用 show 动作，取得模型参数，并在 show.html.erb 视图中返回给用户</p>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="http://link.hhtjim.com/163/5146554.mp3">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_预安装好一些软件："><span class="toc-number">1.</span> <span class="toc-text">1. 预安装好一些软件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_创建_blog_Application"><span class="toc-number">2.</span> <span class="toc-text">2. 创建 blog Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_Starting_up_the_Web_Server"><span class="toc-number">3.</span> <span class="toc-text">3. Starting up the Web Server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_控制器，动作与视图"><span class="toc-number">4.</span> <span class="toc-text">4. 控制器，动作与视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_将某个_view_设为首页"><span class="toc-number">5.</span> <span class="toc-text">5. 将某个 view 设为首页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_添加资源"><span class="toc-number">6.</span> <span class="toc-text">6. 添加资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建_Article_模型"><span class="toc-number">7.</span> <span class="toc-text">创建 Article 模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行迁移(根据迁移文件进行数据库表的创建等操作)"><span class="toc-number">8.</span> <span class="toc-text">运行迁移(根据迁移文件进行数据库表的创建等操作)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据存储到数据库中"><span class="toc-number">9.</span> <span class="toc-text">数据存储到数据库中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示文章"><span class="toc-number">10.</span> <span class="toc-text">显示文章</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
