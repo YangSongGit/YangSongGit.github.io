@@ -59,9 +59,12 @@
 <ul>
 <li><a href="https://guides.rubyonrails.org/getting_started.html" target="_blank" rel="external">Rails Guide</a> </li>
 <li><a href="https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/getting_started.html" target="_blank" rel="external">Rails Guide 中文版</a> </li>
-<li><a href="https://www.youtube.com/watch?v=OaDhY_y8WTo" target="_blank" rel="external">Rails 搭建简易 blog 视频</a></li>
+<li><a href="https://www.youtube.com/watch?v=OaDhY_y8WTo" target="_blank" rel="external">YouTube-Rails 搭建简易 blog 视频</a></li>
 </ul>
-<h4 id="1-_预安装好一些软件：">1. 预安装好一些软件：</h4>
+<h4 id="命令汇总">命令汇总</h4>
+<figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">rails new 项目名</div><div class="line">rails server</div><div class="line">rails generate controller 控制器名   </div><div class="line">rails generate controller 控制器名 动作名</div><div class="line"></div><div class="line">rake <span class="symbol">db:</span>migrate         <span class="comment"># 执行数据库迁移</span></div><div class="line">rake routes             <span class="comment"># 查看资源的路由</span></div><div class="line"></div><div class="line">配置文件：</div><div class="line">root <span class="string">'路由'</span>             <span class="comment"># 设置根目录需要显示的路由，中间用 # 隔开</span></div><div class="line">resources <span class="symbol">:</span>资源名       <span class="comment"># 新建资源</span></div></pre></td></tr></table></figure>
+
+<h4 id="预安装好一些软件：">预安装好一些软件：</h4>
 <ul>
 <li>Ruby 1.9.3 及以上版本</li>
 <li>包管理工具 RubyGems，随 Ruby 1.9+ 安装。</li>
@@ -71,16 +74,16 @@
 <p>查询各个软件版本：</p>
 <figure class="highlight rb"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ruby -v</div><div class="line">rails --version</div><div class="line">sqlite3 --version</div></pre></td></tr></table></figure>
 
-<h4 id="2-_创建_blog_Application">2. 创建 blog Application</h4>
+<h4 id="创建_blog_Application">创建 blog Application</h4>
 <pre><code>rails <span class="keyword">new</span> blog
 <span class="keyword">cd</span> blog
 </code></pre><p><img src="./Image_starts_on_Rails/blogapp.png" alt=""></p>
-<h4 id="3-_Starting_up_the_Web_Server">3. Starting up the Web Server</h4>
+<h4 id="Starting_up_the_Web_Server">Starting up the Web Server</h4>
 <pre><code>cd bin  <span class="comment">// 进入到 blog/bin 目录下</span>
 rails <span class="keyword">server</span>
 </code></pre><p>启动 server 后，此时浏览器打开 <code>http://localhost:3000</code>,便可以看见 rails 首页：</p>
 <p><img src="./Image_starts_on_Rails/首页.png" alt="rails 首页"></p>
-<h4 id="4-_控制器，动作与视图">4. 控制器，动作与视图</h4>
+<h4 id="控制器，动作与视图">控制器，动作与视图</h4>
 <blockquote>
 <p>控制器用来接受向程序发起的请求。路由决定哪个控制器会接受到这个请求。<br>一般情况下，每个控制器都有多个路由，对应不同的动作。动作用来提供视图中需要的数据。</p>
 </blockquote>
@@ -100,13 +103,13 @@ rails <span class="keyword">server</span>
 
 <p>然后使用在 bin 目录下使用 <code>rails server</code> 启动服务器，再访问该视图对应的 URL：<br><code>http://localhost:3000</code> + <code>该视图对应 route</code><br>即： <code>http://localhost:3000/welcome/index</code> 即可看到该页面显示：</p>
 <p><img src="./Image_starts_on_Rails/hellorails.png" alt="rails 视图"></p>
-<h4 id="5-_将某个_view_设为首页">5. 将某个 view 设为首页</h4>
+<h4 id="将某个_view_设为首页">将某个 view 设为首页</h4>
 <blockquote>
 <p>如果想访问 <code>http://localhost:3000</code> 便能直接访问到我们刚刚设置的欢迎界面，需要修改 <code>config/routes.rb</code> 路由配置文件：</p>
 </blockquote>
 <p>添加一行：<br>    root ‘welcome#index’<br>该句告知 Rails，访问程序的根路径时，交给 <code>welcome 控制器</code> 下 <code>index 动作</code> 处理，所以对应的页面即 <code>app/views/welcome/index.html.erb</code> 为首页</p>
 <p>此时直接访问： <code>http://localhost:3000</code> ，会发现首页设置完毕：<br><img src="./Image_starts_on_Rails/设置首页.png" alt="rails 视图"></p>
-<h4 id="6-_添加资源">6. 添加资源</h4>
+<h4 id="添加资源">添加资源</h4>
 <blockquote>
 <p>资源是指一系列类似的对象，比如文章，人和动物。<br><br>资源可以被创建、读取、更新和删除，这些操作简称 CRUD<br><br>注意：一般情况下，Rails 建议使用资源对象，而不手动设置路由</p>
 </blockquote>
@@ -161,7 +164,7 @@ rails <span class="keyword">server</span>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="http://link.hhtjim.com/163/5146554.mp3">
+                <source type="audio/mpeg" src="https://m10.music.126.net/20181117234557/84bab3b2fd6f496084459b80936c39a9/ymusic/1606/426f/10a6/a01cace34f2df73c384bbcfe3e30b827.mp3">
             </audio>
             
         </div>
@@ -180,7 +183,7 @@ rails <span class="keyword">server</span>
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-_预安装好一些软件："><span class="toc-number">1.</span> <span class="toc-text">1. 预安装好一些软件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-_创建_blog_Application"><span class="toc-number">2.</span> <span class="toc-text">2. 创建 blog Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-_Starting_up_the_Web_Server"><span class="toc-number">3.</span> <span class="toc-text">3. Starting up the Web Server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-_控制器，动作与视图"><span class="toc-number">4.</span> <span class="toc-text">4. 控制器，动作与视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-_将某个_view_设为首页"><span class="toc-number">5.</span> <span class="toc-text">5. 将某个 view 设为首页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-_添加资源"><span class="toc-number">6.</span> <span class="toc-text">6. 添加资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建_Article_模型"><span class="toc-number">7.</span> <span class="toc-text">创建 Article 模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行迁移(根据迁移文件进行数据库表的创建等操作)"><span class="toc-number">8.</span> <span class="toc-text">运行迁移(根据迁移文件进行数据库表的创建等操作)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据存储到数据库中"><span class="toc-number">9.</span> <span class="toc-text">数据存储到数据库中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示文章"><span class="toc-number">10.</span> <span class="toc-text">显示文章</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#命令汇总"><span class="toc-number">1.</span> <span class="toc-text">命令汇总</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#预安装好一些软件："><span class="toc-number">2.</span> <span class="toc-text">预安装好一些软件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建_blog_Application"><span class="toc-number">3.</span> <span class="toc-text">创建 blog Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Starting_up_the_Web_Server"><span class="toc-number">4.</span> <span class="toc-text">Starting up the Web Server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#控制器，动作与视图"><span class="toc-number">5.</span> <span class="toc-text">控制器，动作与视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将某个_view_设为首页"><span class="toc-number">6.</span> <span class="toc-text">将某个 view 设为首页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加资源"><span class="toc-number">7.</span> <span class="toc-text">添加资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建_Article_模型"><span class="toc-number">8.</span> <span class="toc-text">创建 Article 模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行迁移(根据迁移文件进行数据库表的创建等操作)"><span class="toc-number">9.</span> <span class="toc-text">运行迁移(根据迁移文件进行数据库表的创建等操作)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据存储到数据库中"><span class="toc-number">10.</span> <span class="toc-text">数据存储到数据库中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示文章"><span class="toc-number">11.</span> <span class="toc-text">显示文章</span></a></li></ol>
         </div>
     
 </div>
