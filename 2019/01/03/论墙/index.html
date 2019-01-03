@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>一月 03, 2019</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <hr>
+<p>title: “墙”的作用<br>date: 2018/10/1<br>tags:</p>
+<ul>
+<li>VPS</li>
+<li>ss<br>categories:</li>
+<li>经验累积</li>
+<li>其他<br>mp3: <a href="http://link.hhtjim.com/163/5146554.mp3" target="_blank" rel="external">http://link.hhtjim.com/163/5146554.mp3</a><br>cover: /img/cover.png</li>
+</ul>
+<hr>
+<p>以访问 google.com 为例说明墙的作用<br><a id="more"></a></p>
+<p>参考资料：</p>
+<ul>
+<li><p><a href="https://github.com/shadowsocks/shadowsocks/issues/1130" target="_blank" rel="external">相关问题Jiang-Xuan的回答</a> </p>
+<p>  以 google.com 为例</p>
+<h2 id="常规的_http_或者是_https_请求被墙(假设它没有被墙)的网站">常规的 http 或者是 https 请求被墙(假设它没有被墙)的网站</h2>
+<blockquote>
+<p>首先你在浏览器里面键入 google.com, 然后回车<br><br>浏览器发起 DNS 请求获取 google.com 的 IP 地址(因为TCP连接必须要ip地址, 域名只是为了让人好记忆而发明出来的)<br><br>DNS 服务器查询 google.com 的 IP 地址, 然后返回给浏览器.<br><br>浏览器拿到了 google.com 的IP地址, 然后向这个 IP 地址发起 TCP 连接, 三次握手之后连接成功.<br><br>然后到了 HTTP 协议的时间了, 浏览器向 google 的服务器发送 HTTP 请求头(因为此时 TCP 连接已经建立, 可以发送数据了), 请求头其实就是一段字符串.<br></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">GET / HTTP/<span class="number">1.1</span></div><div class="line"><span class="label">Host:</span> www.google.com</div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows<span class="comment">; U; Windows NT 5.1; en-US; rv:1.7.6)</span></div><div class="line">Gecko/<span class="number">20050225</span> Firefox/<span class="number">1.0</span><span class="number">.1</span></div><div class="line"><span class="label">Connection:</span> Keep-Alive</div></pre></td></tr></table></figure>
+
+<ul>
+<li>无论是 HTTP 请求还是加密的 HTTPS 请求, 请求头都是不会被加密的.</li>
+</ul>
+<blockquote>
+<p>google.com 收到请求头, 如果是 HTTPS 请求, 还要交换秘钥什么的, 这个就不解释了, 总之就是 google.com 把数据返回回来了.<br></p>
+</blockquote>
+<h2 id="我们看一下上述流程_墙_可以做什么">我们看一下上述流程 墙 可以做什么</h2>
+<blockquote>
+<p>我们键入 google.com 的时候浏览器需要先发起 DNS 请求查询 google.com 的 IP 地址, 如果拿不到这个 IP 地址, 不就无法和 google.com 的真实 IP 地址通讯了吗, 所以 墙 的初期手段就是污染 DNS, AI, 浏览器任你发送 DNS 请求, 国内的 DNS 服务器就给你返回一个错误的 IP 地址,  浏览器很懵, 有可能这个 IP 地址压根就没有被绑定服务器, 然后服务器不可达. <br><br><br>但是 DNS 请求需要我们的浏览器发起, 既然 DNS 请求能被污染, 如果我自己知道正确的 google.com IP地址, 我来告诉浏览器正确的 IP 地址不就行了吗, 刚开始想要科学上网的人确实是这么做的, 在 window 系统 C:\Windows\System32\drivers\etc 该目录下面有一个 hosts 文件, Mac 系统下面的路径为 /etc/hosts, 如果操作系统能在这里获得关于域名的 IP 地址, 就不会向 DNS 服务器发起请求了, 所以都赶忙去找 google.com 的真实 IP 地址填在这里来让操作系统不要去其他的 DNS 查询了. 这个时期应该是成功的度过了一段时间<br><br><br><br>墙 继续升级, 既然你们能搞到真实的 google.com 的 IP 地址, 那我就把所有已知的 google.com 的 IP 地址全部封了, 但是 google.com 的服务器是可以换 IP 地址的, 你可以试一下, 多访问几次 google.com, 有可能是不相同的, 所以只是把已知的 google.com 服务器的 IP 地址封掉并不能完全的阻挡,<br><br><br><br>所以 墙 从 HTTP 协议入手了, HTTP 协议请求头的发送全部是明文的, 无论是 HTTP, 还是 HTTPS, 请求头全部都是明文的, 请求头里面有 google.com, 这就很尴尬了, 这个域名没有办法隐藏, 墙 很开心, 好了, 所有经过我这里的数据包都要被拆开看看你访问的地址是不是违禁地址, 如果是的就不要继续了, 墙 会模拟 google.com 的服务器给你的电脑发送一个 RST TCP响应, 电脑的TCP协议看到这个响应就会无条件的重置连接, 所以你会看到有时候你能拿到正确的 google.com 的IP地址, 也会看到浏览器提示你连接被重置, 这时候的 RST 的响应可是墙发给你的, 是不是感觉很荣耀grinning, 然后 墙 还会模仿客户端给 google.com 的服务器发送 RST 响应, google.com 以为是你发的, 也会无条件的关闭 TCP 连接.</p>
+</blockquote>
+<h2 id="shadowsocks_做了什么">shadowsocks 做了什么</h2>
+<p>有一个代理协议叫做 socks5, 可以帮助你穿透防火墙, 由 socks5 负责传递双方的数据</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">client ---------&gt;</span> socks5 -----------&gt; server</span></div><div class="line"><span class="input"><span class="prompt"></span></span></div><div class="line">shadowsocks 把 socks5 拆成了两个部分:</div><div class="line"></div><div class="line">client -------&gt; ssclient ------&gt; ssserver ---------&gt; server</div></pre></td></tr></table></figure>
+
+<blockquote>
+<p>client 把数据传递给 ssclient, 这就是你为什么要把 socks5 客户端的地址要填写 ssclient 监听的地址<br><br><br><br> ssclient 把数据加密, 包括 DNS 请求什么的一切数据全部加密发送给 ssserver(并且 ss 没有握手阶段, 没有明显的数据特征能辨识这个是 ss 流量)<br> <br><br><br> ssserver 把数据解密拿到 client 想要访问的域名, 然后发起 DNS 请求获取 IP 地址(这也就是为什么你的 VPS 要放在国外), 然后和这个 IP 地址握手, 然后服务器响应, ssserver 并不负责处理数据, 只是原样把数据加密回传给 ssclient<br> <br><br><br> ssclient 解密数据然后传递给浏览器, 浏览器负责数据的辨识处理(因为 HTTPS 还需要进一步的握手).</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常规的_http_或者是_https_请求被墙(假设它没有被墙)的网站"><span class="toc-number">1.</span> <span class="toc-text">常规的 http 或者是 https 请求被墙(假设它没有被墙)的网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我们看一下上述流程_墙_可以做什么"><span class="toc-number">2.</span> <span class="toc-text">我们看一下上述流程 墙 可以做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shadowsocks_做了什么"><span class="toc-number">3.</span> <span class="toc-text">shadowsocks 做了什么</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
