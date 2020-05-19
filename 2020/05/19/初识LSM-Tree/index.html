@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="SY"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">初识 LSM-Tree(Log-Structured Merge-Tree)</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">初识 LSM-Tree(Log-Structured Merge-Tree)</h1>
+        <div class="stuff">
+            <span>五月 19, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/LSM-Tree/">LSM-Tree</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言">前言</h2>
+<p>数据的持久化存储是一个经久不衰的话题。</p>
+<p>计算机存储结构中，寄存器-高速缓存-内存-硬盘：前者速度依次比后者快一个数量级，但是存储容量却比后者小一个数量级，我们平时接触的存储层次通常在<code>内存-硬盘</code>这两级，海量的应用数据当然是无法永远存在内存中的，需要持久化到硬盘中，这时便需要考虑磁盘读取数据的 I/O 开销。</p>
+<pre><code><span class="attribute">磁盘访问时间</span>=<span class="string">寻道时间+旋转时间+传输时间
+其中，
+寻道时间：把磁头从当前位置移动到指定的磁道所需要的时间（该部分占比最多）
+旋转时间：目标扇区旋转到磁头下面所需要的时间
+传输时间：数据从磁盘读出或向磁盘写入所需要的时间</span>
+</code></pre><blockquote>
+<p>1972 年 R. Bayer 和 E. McCreight 提出了 <code>B-树</code> (也称作 <code>B树</code> )<br>  1979 年 Douglas Comer 提出了 B-树 的一个变形—— <code>B+树</code><br>  1996 年 Patrick O’Nei 等人提出了新的数据结构—— <code>LSM-Tree</code>  </p>
+</blockquote>
+<p><code>B树</code> 和 <code>B+树</code> 相比较 <code>AVL树</code> 和 <code>红黑树</code> ，每个节点可以存储 m-1 条数据( m 阶)，所以呈现出一个”矮胖”的效果，降低了树高，使得查找数据时可以降低磁盘 I/O 的次数，从而提高查找效率，二者广泛用于关系型数据库和文件系统之中。<br>而B+tree的优点是支持高效的读,稳定的O(logN)，但是在大规模的写请求下（复杂度O(LogN)），效率会变得比较低，因为随着insert的操作，为了维护B+树结构，节点会不断的分裂和合并。操作磁盘的随机读写概率会变大，故导致性能降低<br>关于 <code>B树</code> 和 <code>B+树</code> 的相关知识，可以参考这<a href="https://www.cnblogs.com/makai/p/10861296.html" target="_blank" rel="external">这篇博客</a></p>
+<p>这次主要了解的是 <code>LSM-Tree</code><br>(<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">论文原文戳这里</a>)<br>任何数据结构和算法都有其应用场景，<code>LSM-Tree</code> 就适合于写操作比读操作频繁的场景，特别是大量随机写操作</p>
+<h2 id="LSM-Tree_的结构">LSM-Tree 的结构</h2>
+<p><img src="https://raw.githubusercontent.com/YangSongGit/imgrepo/master/images/lsm-structure.png" alt="LSM-Tree 结构"></p>
+<p>如上图所示，<code>LSM-Tree</code> 可以看做是一个多层次的结构，而每一层都是一个类树的结构而且保证有序，C0 层位于内存中，C1 到 Ck 层位于磁盘中，其下一层的容量要比上一层的更大</p>
+<p><img src="https://raw.githubusercontent.com/YangSongGit/imgrepo/master/images/lsm-structure0.png" alt="只有两层的 LSM-Tree"></p>
+<h2 id="LSM-Tree_的操作">LSM-Tree 的操作</h2>
+<p><code>LSM-Tree</code> 的思想是将大量的随机写操作转化为批量写操作，那么它是怎么做到的呢:</p>
+<ul>
+<li>数据插入<br>数据插入时，首先向日志文件中写入一个用于恢复该插入操作的日志记录，然后将数据插入到位于内存的 C0 层的树中，注意此操作是不需要任何 I/O 开销的，从使用者的角度看，该插入操作到此结束(速度有木有贼快)<br>但是内存中的空间是很有限的，在 C0 层容量到达某个阈值后，会启动一个 <code>rolling merge</code> 的过程（见下图），其本质上是一系列的 merge 操作，将 C0 层选中的数据向下 merge 到 C1 层，merge 后的 C1 层仍保持有序，同理，当 C1 层容量达到阈值后，也采用同样的操作将部分数据 merge 到下一层。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/YangSongGit/imgrepo/master/images/LSM-Tree_rolling_merge_steps.png" alt="LSM-Tree 的 rolling merge 操作"></p>
+<ul>
+<li><p>数据删除<br>  在 <code>LSM-Tree</code> 中，当要删除的数据不在 C0 层的内存空间时（即已经 merge 到磁盘），数据的删除以插入操作的形式进行，不过这里插入的值是一个<code>删除标记</code>，同时指出要被删除记录的 Row ID, 实际的删除操作可以在后面的 <code>rolling merge</code> 操作中碰到真正的 node 时进行删除 </p>
+</li>
+<li><p>数据更新<br> <code>LSM-Tree</code> 的作者在论文中提到:</p>
+<blockquote>
+<p>Updates of records that cause changes to indexed values are unusual in any kind of applications, but such updates can be handled by LSM-trees in a deferred manner if we view an update as a delete followed by an insert.   </p>
+</blockquote>
+<p>  通过<code>删除+插入</code>操作，可以实现<code>更新</code>操作，而且对于那些会导致索引值变化的更新（比如一条记录包含了 ID 和 name，且索引建立在 ID 上，那么对 name 的更新很容易，只需要原地改动即可，但如果 ID 改了，那么就要调整记录在索引中的位置，就很麻烦了），<code>LSM-Tree</code> 也可以很轻易的应对</p>
+</li>
+<li><p>数据查找<br>  通过上面的介绍可以看出，一条记录在 <code>LSM-Tree</code> 中具体位于哪一层是不确定的，但是最新版本的数据总是在最上层，因此， <code>LSM-Tree</code> 中的查找需要从 C0 层开始，向下逐层查找，直到找到或找不到所需数据为止。</p>
+</li>
+</ul>
+<h2 id="LSM-Tree_存在的问题">LSM-Tree 存在的问题</h2>
+<p><code>LSM-Tree</code> 通过将大量随机写操作转化为批量顺序写操作，提高了写入性能，同时也没有使读性能下降很多，所以适合<code>写多读少</code>的场景，这种设计也带来了一些问题：</p>
+<ul>
+<li><p>写放大问题<br>  <code>写放大</code>指的是使用者想写入的数据量小于系统真实写入的数据量，这是由数据逐层的向下合并（<code>rolling merge</code>）带来的，这样会占用很多的磁盘 I/O, 如果使用的是 SSD 的话，还会大大缩短其寿命</p>
+</li>
+<li><p>读放大问题<br>  <code>读放大</code>问题的来源也是数据的分层存储，读操作需要逐层查找目标数据，从而降低效率。</p>
+</li>
+<li><p>空间放大问题<br>  <code>空间放大</code>是因为新旧版本的数据可能会同时存在，在更新和删除操作频繁的场景下，会造成空间的冗余占用，不过现在磁盘成本较低，空间放大的问题影响也较小</p>
+</li>
+</ul>
+<h2 id="LSM-Tree_的应用">LSM-Tree 的应用</h2>
+<p>自 <code>LSM-Tree</code> 诞生以来，有着众多从工程到学术上的研究与应用，也不乏针对其缺陷所做的优化：</p>
+<ul>
+<li>十多年前谷歌大名鼎鼎的“三驾马车”论文(2003 年的 GFS, 2004 年的 MapReduce, 2006 年的 BigTable) 中 06 年的 <code>BigTable</code> 的文件组织方式就是 <code>LSM-Tree</code></li>
+<li>FaceBook 于 年开发的分布式 NoSQL 数据库系统 <code>Cassandra</code>，集BigTable 的数据模型与 Amazon Dynamo 的分布式的架构于一身</li>
+<li>Apache 的 <code>HBase</code></li>
+<li>Google 的单机版 KV数据库 <code>LevelDB</code></li>
+<li><p>FaceBook 基于 LevelDB 优化的 KV数据库 <code>RocksDB</code></p>
+</li>
+<li><p>FAST 2016<code>WiscKey</code>: 针对<code>写放大</code>问题，在 LSM-Tree 上做 key 和 value 的分离存储</p>
+</li>
+<li>2017 <code>PebblesDB</code>：针对<code>写放大</code>问题，借鉴 Skip List 的设计理念，触类旁通的应用到 LSM-tree 的 sstable 管理</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/443242.mp3">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的结构"><span class="toc-number">2.</span> <span class="toc-text">LSM-Tree 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的操作"><span class="toc-number">3.</span> <span class="toc-text">LSM-Tree 的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_存在的问题"><span class="toc-number">4.</span> <span class="toc-text">LSM-Tree 存在的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的应用"><span class="toc-number">5.</span> <span class="toc-text">LSM-Tree 的应用</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
