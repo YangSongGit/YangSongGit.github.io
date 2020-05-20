@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="null" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>羚羊小栈</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="SY"> 
+    <link rel="alternative" href="atom.xml" title="羚羊小栈" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon2.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/diaspora.css" type="text/css">
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">初识 LevelDB</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">初识 LevelDB</h1>
+        <div class="stuff">
+            <span>五月 20, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/LevelDB/">LevelDB</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/键值存储/">键值存储</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言">前言</h2>
+<p>谷歌 2006 年的<code>分布式存储系统 BigTable</code> 率先使用了 <code>LSM-Tree</code> 的结构，之后其原作者又参与开发并开源了一个<code>单机版</code>的键值存储系统，这便是今天的主角——<code>LevelDB</code></p>
+<h2 id="LevelDB_的结构">LevelDB 的结构</h2>
+<p><img src="https://raw.githubusercontent.com/YangSongGit/imgrepo/master/images/LevelDB整体架构.png" alt="LevelDB 的结构"></p>
+<p><code>LevelDB</code> 的整体架构如上图所示，它借鉴了 <code>LSM-Tree</code> 的设计思想，可以看做它的一个工程实现，具体的组件有：</p>
+<ul>
+<li><strong>MemTable</strong><br>  内存数据结构，具体实现是 <code>SkipList</code>。 接受用户的读写请求，新的数据会先在这里写入。</li>
+<li><strong>Immutable MemTable</strong><br>  当 MemTable 的大小达到设定的阈值后，会被转换成 Immutable MemTable，只接受读操作，不再接受写操作，然后由后台线程 flush 到磁盘上 —— 这个过程称为 <code>minor compaction</code>。</li>
+<li><strong>Log</strong><br>  数据写入 MemTable 之前会先写日志，用于机器宕机导致 MemTable 数据丢失情况下的数据恢复。一个日志文件对应到一个 MemTable。</li>
+<li><strong>SSTable</strong><br>  即 Sorted String Table，借鉴了 Google Bigtable 论文中的 SSTable 的设计。位于 level-0 到 level-n 各层内，文件内数据有序。除了 level-0 之外，每一层内部的 SSTable 的 key 范围都不相交。</li>
+<li><strong>Manifest</strong><br>  Manifest 文件中记录各层 SSTable 的信息，包括每一层有哪些 SSTable，每个 SSTable 的文件大小、最大 key、最小 key 等信息。</li>
+<li><strong>Current</strong><br>  重启时，LevelDB 会重新生成 Manifest，所以 Manifest 文件可能同时存在多个，Current 记录的是当前使用的 Manifest 文件名。</li>
+<li><strong>TableCache</strong><br>  TableCache 用于缓存 SSTable 的<code>文件描述符</code>、<code>索引</code>和 <code>filter</code>。</li>
+<li><strong>BlockCache</strong><br>  SSTable 的数据是被组织成一个个 block。BlockCache 用于缓存这些 block（解压后）的数据。</li>
+</ul>
+<h2 id="LevelDB_的操作">LevelDB 的操作</h2>
+<p><code>LevelDB</code> 提供了以下几种操作接口：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DB.Put(key, value)</div><div class="line">DB.Get(key)</div><div class="line">DB.Del(key)</div></pre></td></tr></table></figure>
+
+<p>LevelDB 没有更新接口，如果需要更新某个 Key 的值，只需要插入一条新纪录即可；或者先删除旧记录，再插入也可.</p>
+<h3 id="Put_——_数据插入">Put —— 数据插入</h3>
+<p>数据插入 <code>LevelDB</code> 时，其流程与插入 <code>LSM-Tree</code> 大致相同不过更加具体，它会经过三个 table 和一个 log：  </p>
+<p>log –&gt; memtable –&gt; immutable memtable –&gt; sstable</p>
+<p>详细流程如下：</p>
+<ol>
+<li>首先写到 log 文件中，顺序写，做持久化（系统崩溃会从 log 文件中恢复, log 文件也是按照一定格式的二进制数据）</li>
+<li>写到 log 文件中后会写入 memtable（由 SkipList 实现）</li>
+<li>之后 write 操作就返回成功。</li>
+<li>当 memtable 的大小达到阈值后变成 Immutale memtable，然后生成一个新的 memtable 来支持新的写操作。这两个 table 的数据结构是一样的, 唯一区别是后者只读。</li>
+<li>Imutable memtable 的内容会定期 compaction(称为 Minor Compaction) 到磁盘 Level-0 的 sstable 中，然后会清除对应的 log 文件。</li>
+<li>Level-0 的 sstable 数据量达到阈值后，会继续进行 compaction 操作(称为 Major Compaction)，将数据 compaction 到 Level-1 层中，以此类推。</li>
+</ol>
+<blockquote>
+<p>一次写操作需要一次磁盘的顺序写（log 文件）和一次内存写（写入 metable），所以写效率是非常高的。</p>
+</blockquote>
+<h3 id="Del_——_数据删除">Del —— 数据删除</h3>
+<p>LevelDB 的删除操作其实也是插入，只是插入的值为一个删除标记，真正的删除要到 Compaction 的时候才去做真正的操作；</p>
+<h3 id="Get_——_数据查询">Get —— 数据查询</h3>
+<blockquote>
+<p>查询可以分为两种：<br>点查询（Point Query）：读一个 key 的数据。<br>范围查询（Range Query）：有序读一段 key 范围的数据。<br>LevelDB 支持这两种操作</p>
+</blockquote>
+<p>LevelDB 的查找操作十分简单易懂，就是按照存储顺序依次查找的一个过程，不过其中加了一些优化，比如：  </p>
+<pre><code><span class="number">1</span>. 通过 bloom <span class="built_in">filter</span> 判断 key 是否存在
+</code></pre><p>具体的查找流程如下图所示：<br><img src="https://raw.githubusercontent.com/YangSongGit/imgrepo/master/images/LevelDB读操作顺序.png" alt="LevelDB 的查找流程"></p>
+<h2 id="宕机数据恢复">宕机数据恢复</h2>
+<p>如果突然宕机导致内存数据丢失，只需要读取 log 文件，按顺序将上面的操作重跑一遍，数据就可以恢复了（已经持久化到磁盘的数据是安全的，其 log 文件已经删除）</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://www.jianshu.com/p/750c7ea9b88c" target="_blank" rel="external">LevelDB 完全解析</a></p>
+<p><a href="https://www.jianshu.com/p/e904834932a1" target="_blank" rel="external">LevelDB 源码解析</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="https://link.hhtjim.com/163/443242.mp3">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LevelDB_的结构"><span class="toc-number">2.</span> <span class="toc-text">LevelDB 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LevelDB_的操作"><span class="toc-number">3.</span> <span class="toc-text">LevelDB 的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Put_——_数据插入"><span class="toc-number">3.1.</span> <span class="toc-text">Put —— 数据插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Del_——_数据删除"><span class="toc-number">3.2.</span> <span class="toc-text">Del —— 数据删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get_——_数据查询"><span class="toc-number">3.3.</span> <span class="toc-text">Get —— 数据查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宕机数据恢复"><span class="toc-number">4.</span> <span class="toc-text">宕机数据恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" type="text/javascript"></script>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script src="/js/plugin.js" type="text/javascript"></script>
+<script src="/js/diaspora.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css" type="text/css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css" type="text/css">
+
+<script src="/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
