@@ -99,18 +99,19 @@
 <li><p>空间放大问题<br>  <code>空间放大</code>是因为新旧版本的数据可能会同时存在，在更新和删除操作频繁的场景下，会造成空间的冗余占用，不过现在磁盘成本较低，空间放大的问题影响也较小</p>
 </li>
 </ul>
-<h2 id="LSM-Tree_的应用">LSM-Tree 的应用</h2>
+<h2 id="LSM-Tree_的应用与优化">LSM-Tree 的应用与优化</h2>
 <p>自 <code>LSM-Tree</code> 诞生以来，有着众多从工程到学术上的研究与应用，也不乏针对其缺陷所做的优化：</p>
 <ul>
 <li>十多年前谷歌大名鼎鼎的“三驾马车”论文(2003 年的 GFS, 2004 年的 MapReduce, 2006 年的 BigTable) 中 06 年的 <code>BigTable</code> 的文件组织方式就是 <code>LSM-Tree</code></li>
-<li>FaceBook 于 年开发的分布式 NoSQL 数据库系统 <code>Cassandra</code>，集BigTable 的数据模型与 Amazon Dynamo 的分布式的架构于一身</li>
-<li>Apache 的 <code>HBase</code></li>
-<li>Google 的单机版 KV数据库 <code>LevelDB</code></li>
-<li><p>FaceBook 基于 LevelDB 优化的 KV数据库 <code>RocksDB</code></p>
+<li>FaceBook 开发的分布式 NoSQL 数据库系统 <code>Cassandra</code>，集BigTable 的数据模型与 Amazon Dynamo 的分布式的架构于一身</li>
+<li><p>Apache 的 <code>HBase</code></p>
 </li>
-<li><p>FAST 2016<code>WiscKey</code>: 针对<code>写放大</code>问题，在 LSM-Tree 上做 key 和 value 的分离存储</p>
+<li><p><a href="https://yangsonggit.github.io/2020/05/20/%E5%88%9D%E8%AF%86%20LevelDB/" target="_blank" rel="external">Google 的单机版 KV数据库 <code>LevelDB</code></a></p>
 </li>
-<li>2017 <code>PebblesDB</code>：针对<code>写放大</code>问题，借鉴 Skip List 的设计理念，触类旁通的应用到 LSM-tree 的 sstable 管理</li>
+<li><a href="https://github.com/facebook/rocksdb/wiki" target="_blank" rel="external">FaceBook 基于 LevelDB 优化的 KV数据库 <code>RocksDB</code></a></li>
+<li><a href="https://www.jianshu.com/p/b87b397734c8" target="_blank" rel="external">FAST 2015<code>LSM-trie</code>: 针对<code>写放大</code>问题，设计 SSTable-trie 来减少写放大</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/45792050" target="_blank" rel="external">FAST 2016<code>WiscKey</code>: 针对<code>写放大</code>问题，在 LSM-Tree 上做 key 和 value 的分离存储</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/46069535" target="_blank" rel="external">2017 <code>PebblesDB</code>：针对<code>写放大</code>问题，借鉴 Skip List 的设计理念，触类旁通的应用到 LSM-tree 的 sstable 管理</a></li>
 </ul>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
@@ -134,7 +135,7 @@
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的结构"><span class="toc-number">2.</span> <span class="toc-text">LSM-Tree 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的操作"><span class="toc-number">3.</span> <span class="toc-text">LSM-Tree 的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_存在的问题"><span class="toc-number">4.</span> <span class="toc-text">LSM-Tree 存在的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的应用"><span class="toc-number">5.</span> <span class="toc-text">LSM-Tree 的应用</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的结构"><span class="toc-number">2.</span> <span class="toc-text">LSM-Tree 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的操作"><span class="toc-number">3.</span> <span class="toc-text">LSM-Tree 的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_存在的问题"><span class="toc-number">4.</span> <span class="toc-text">LSM-Tree 存在的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSM-Tree_的应用与优化"><span class="toc-number">5.</span> <span class="toc-text">LSM-Tree 的应用与优化</span></a></li></ol>
         </div>
     
 </div>
